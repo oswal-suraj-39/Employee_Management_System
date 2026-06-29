@@ -8,6 +8,7 @@ function previewFile(file, empImgFrame, uploadSvg, empImg) {
         uploadSvg.style.display = "none";
         empImg.style.display = "block";
         empImg.src = reader.result;
+        // hello
     };
 	
 }
