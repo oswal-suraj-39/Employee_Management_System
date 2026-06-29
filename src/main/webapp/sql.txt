@@ -1,0 +1,2 @@
+to truncate all data - 
+truncate table employees, contact, department restart identity

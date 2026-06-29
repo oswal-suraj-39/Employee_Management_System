@@ -1,0 +1,70 @@
+.cardContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(307px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(285px, 1fr));
+    place-items: center;
+    gap: 1rem;
+    color: black;
+}
+
+.card {
+    display: flex;
+    border-radius: 1rem;
+    box-shadow: -1px 0px 3px 0px rgba(0, 0, 0, 0.3);
+}
+
+.card .viewBtn, 
+.btnSection button {
+    width: min-content;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    align-self: end;
+    border: none;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
+    background-color: white;
+    cursor: pointer;
+}
+
+.card .viewBtn:hover, 
+.btnSection button:hover {
+    background-color: rgb(196, 196, 196);
+}
+
+.card form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem;
+    border-radius: 1rem 0 0 1rem;
+    height: auto;
+}
+
+.shortInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.shortInfo label {
+    font-size: 0.8rem;
+}
+
+.shortInfo input {
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    background-color: transparent;
+}
+
+input[type="number"]::-webkit-inner-spin-button {
+    display: none;
+}
+
+.photoFrame {
+    display: flex;
+    justify-content: center;
+    width: 10rem;
+    height: 17.78rem;
+    overflow: hidden;
+    border-radius: 0 1rem 1rem 0;
+}
