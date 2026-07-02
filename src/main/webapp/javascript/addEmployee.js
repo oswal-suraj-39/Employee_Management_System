@@ -87,7 +87,7 @@ function loadAddEmployeeScript() {
        
 		    b.onclick = (event) => {
                 if (event.target.closest(".saveBtn")) {
-                    saveEmployeeData(mainContent4);
+                    // saveEmployeeData(mainContent4);
                 }
             }
 			
@@ -217,14 +217,30 @@ function loadAddEmployeeScript() {
         });
 		
         document.addEventListener("click", (event) => {
-			
             const inputOutline = event.target.closest(".inputOutline");
 			
             if (!inputOutline || !inputOutline.querySelector(".genderInput")) {
+                
                 document.querySelectorAll(".genderSelection.open").forEach(dropdown => {
                     
 					dropdown.removeAttribute("style");
-                		dropdown.classList.remove("open");
+                	dropdown.classList.remove("open");
+                });
+            }
+            if (!inputOutline || !inputOutline.querySelector(".employeeTypeInput")) {
+
+                document.querySelectorAll(".employeeTypeSelection.open").forEach(dropdown => {
+                    
+					dropdown.removeAttribute("style");
+                	dropdown.classList.remove("open");
+                });
+            }
+            if (!inputOutline || !inputOutline.querySelector(".employeeStatusInput")) {
+
+                document.querySelectorAll(".employeeStatusSelection.open").forEach(dropdown => {
+                    
+					dropdown.removeAttribute("style");
+                	dropdown.classList.remove("open");
                 });
             }
         });

@@ -1,6 +1,13 @@
 * {
     padding: 0;
     margin: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url(../font/Roboto-Regular.ttf);
+    format: ("truetype");
 }
 
 :root {
@@ -13,13 +20,16 @@
     --color-7: rgb(227, 227, 227);
     --color-8: rgb(196, 196, 196);
     --color-9: #16db65;
+    --color-10: #16db65;
     --text-color1: white;
     --text-color2: black;
     --text-color3: black;
+    --text-color4: white;
     --flex-position: flex-start;
     --transform-scale: scale(1);
     --opacity: 0;
     --text-shadow: 0 0 0 transparent;
+    --text-shadow2: 0 0 2px rgba(0, 0, 0); 
 }
 
 body.dark {
@@ -32,13 +42,16 @@ body.dark {
     --color-7: #0d2818;
     --color-8: #16db65;
     --color-9: transparent;
+    --color-10: white;
     --text-color1: #16db65;
     --text-color2: white;
     --text-color3: #16db65;
+    --text-color4: black;
     --flex-position: flex-end;
     --transform-scale: scale(1.7);
     --opacity: 1;
     --text-shadow: 0 0 3px black;
+    --text-shadow2: 0 0 0 transparent;
 }
 
 html {

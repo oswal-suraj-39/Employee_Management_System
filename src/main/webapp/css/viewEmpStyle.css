@@ -25,9 +25,19 @@
     cursor: pointer;
 }
 
-.card .viewBtn:hover, 
-.btnSection button:hover {
+.card .viewBtn:hover {
     background-color: rgb(196, 196, 196);
+}
+
+.btnSection button {
+    text-shadow: var(--text-shadow2);
+    color: var(--text-color4);
+    background-color: var(--color-10);
+}
+
+.btnSection button:hover {
+    background-color: rgb(17, 129, 61);
+    color: white;
 }
 
 .card form {

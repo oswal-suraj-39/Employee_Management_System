@@ -1,4 +1,5 @@
 .inputContainer {
+    position: relative;
     display: flex;
     flex-wrap: wrap-reverse;
     flex-direction: row;
@@ -181,4 +182,18 @@ input[type="date"]::-webkit-input-placeholder {
 .listIcon {
     min-width: 24px;
     max-height: 24px;
+}
+
+.MessageScreen {
+    position: fixed;
+    top: 4rem;
+    left: 14.7rem;
+    background-color: rgba(22, 219, 101, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 79vw;
+    height: 88vh;
+    font-size: 12rem;
+    font-weight: bold;
 }
