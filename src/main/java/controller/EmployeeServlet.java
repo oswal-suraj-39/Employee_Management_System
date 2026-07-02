@@ -26,9 +26,6 @@ public class EmployeeServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		try {
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-
 			String empID = request.getParameter("empID");
 			String empFirstName = request.getParameter("empFirstName");
 			String empLastName = request.getParameter("empLastName");
@@ -69,6 +66,10 @@ public class EmployeeServlet extends HttpServlet {
 				empType != null &&
 				empJoinDate != null &&
 				empStatus != null) {
+
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+
 				String fileName = photoPart.getSubmittedFileName();
 
 				String uploadPath = "C:\\Users\\hp\\eclipse-workspace\\EmployeeManagementSystem\\src\\main\\webapp\\upload";
@@ -114,35 +115,47 @@ public class EmployeeServlet extends HttpServlet {
 				DepartmentDAO dDAO = new DepartmentDAO();
 				
 				boolean bool1 = eDAO.addEmployee(emp);
+
+				JSONObject status = new JSONObject();
 				
 				if (bool1) {
 					System.out.println("insertion employee data successfully");
-					
+					status.put("employeeData", "ok");
+
 					ResultSet rs = eDAO.getEmployeeID(emp);
-					
+
 					while (rs.next()) {
 						emp.setEID(rs.getInt("e_id"));
 					}
 
 					boolean bool2 = cDAO.addContact(cont, emp);
-					boolean bool3 = dDAO.addDepartment(dept, emp);
 					
 					if (bool2) {
 						System.out.println("insertion employee contact data successfully");
+						status.put("employeeContactData", "ok");
+
+						boolean bool3 = dDAO.addDepartment(dept, emp);
+						
+						if (bool3) {
+							System.out.println("insertion employee department data successfully");
+							status.put("employeeDepartmentData", "ok");
+						} else {
+							System.out.println("insertion employee department data unsuccessfully");
+							status.put("employeeDepartmentData", "error");
+						}
+
 					} else {
 						System.out.println("insertion employee contact data unsuccessfully");
+						status.put("employeeContactData", "error");
 					}
 					
-					if (bool3) {
-						System.out.println("insertion employee department data successfully");
-					} else {
-						System.out.println("insertion employee department data unsuccessfully");
-					}
-					
+					response.getWriter().print(status);
 					rs.close();
 					
 				} else {
 					System.out.println("insertion employee data unsuccessfully");
+					status.put("employeeData", "error");
+					response.getWriter().print(status);
 				}
 			}
 			
@@ -151,6 +164,9 @@ public class EmployeeServlet extends HttpServlet {
 			
 			if (requestedAction != null && requestedAction.equals("viewAllEmployees")) {
 				
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+
 				EmployeeDAO eDAO = new EmployeeDAO();
 				ContactDAO cDAO = new ContactDAO();
 				DepartmentDAO dDAO = new DepartmentDAO();
@@ -211,11 +227,18 @@ public class EmployeeServlet extends HttpServlet {
 				}
 				
 				response.getWriter().print(employees);
+
+				rs1.close();
+				rs2.close();
+				rs3.close();
+				rs4.close();
 			}
 			
 			String EID = request.getParameter("EID");
 			if (requestedAction != null && requestedAction.equals("getEmployeeDataByID") && EID != null) {
-				
+				response.setContentType("application/json");
+				response.setCharacterEncoding("UTF-8");
+
 				int eid = Integer.parseInt(EID);
 				
 				Employee employee = new Employee();
