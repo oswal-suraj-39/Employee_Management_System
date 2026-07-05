@@ -24,8 +24,8 @@ public class EmployeeServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		try {
+				
+		try {			
 			String empID = request.getParameter("empID");
 			String empFirstName = request.getParameter("empFirstName");
 			String empLastName = request.getParameter("empLastName");
@@ -66,7 +66,7 @@ public class EmployeeServlet extends HttpServlet {
 				empType != null &&
 				empJoinDate != null &&
 				empStatus != null) {
-
+				
 				response.setContentType("application/json");
 				response.setCharacterEncoding("UTF-8");
 
@@ -160,7 +160,6 @@ public class EmployeeServlet extends HttpServlet {
 			}
 			
 			String requestedAction = request.getParameter("action");
-			System.out.println("requestedAction = "+requestedAction);
 			
 			if (requestedAction != null && requestedAction.equals("viewAllEmployees")) {
 				
@@ -236,12 +235,11 @@ public class EmployeeServlet extends HttpServlet {
 			
 			String EID = request.getParameter("EID");
 			if (requestedAction != null && requestedAction.equals("getEmployeeDataByID") && EID != null) {
+				
 				response.setContentType("application/json");
 				response.setCharacterEncoding("UTF-8");
 
 				int eid = Integer.parseInt(EID);
-				
-				Employee employee = new Employee();
 				
 				EmployeeDAO eDAO = new EmployeeDAO();
 				ContactDAO cDAO = new ContactDAO();
@@ -281,6 +279,9 @@ public class EmployeeServlet extends HttpServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			JSONObject status = new JSONObject();
+			status.put("status","error");
+			response.getWriter().print(status);
 		}
 	}
 

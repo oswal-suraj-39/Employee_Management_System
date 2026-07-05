@@ -12,7 +12,7 @@ function previewFile(file, empImgFrame, uploadSvg, empImg) {
 
 }
 
-function handleFile(e, empImgFrame, uploadSvg, empImg) {
+function handleFile(e, empImgFrame, uploadSvg, empImg, MessageScreen) {
 
     const file = e.target.files[0];
 
@@ -20,7 +20,15 @@ function handleFile(e, empImgFrame, uploadSvg, empImg) {
         if (file.size > 4 * 1024 * 1024) {
             console.warn("image is 4MB size limit");
             e.target.value = "";
-            return;
+			MessageScreen.style.display = "flex";
+			MessageScreen.style.backgroundColor = "rgba(219 219 22 / 50%)";
+			MessageScreen.style.color = "rgb(94 94 10)";
+			MessageScreen.textContent = "Warning!";
+			setTimeout(() => {
+				MessageScreen.removeAttribute("style");
+				MessageScreen.textContent = "";
+			}, 2000);
+			return;
         }
 
         previewFile(file, empImgFrame, uploadSvg, empImg);
@@ -63,8 +71,15 @@ async function saveEmployeeData(mainContent4, MessageScreen) {
 
     const result = await response.json();
 
-    if (result.employeeData === "error" && result.employeeContactData === "error" && result.employeeDepartmentData === "error") {
-        console.error("Error saving employee data:", response.statusText);
+    if ((result.employeeData === "error" && result.employeeContactData === "error" && result.employeeDepartmentData === "error") || result.status === "error") {
+        MessageScreen.style.display = "flex";
+        MessageScreen.style.backgroundColor = "rgba(219 22 22 / 50%)";
+        MessageScreen.style.color = "rgb(76 7 7)";
+        MessageScreen.textContent = "Error!";
+        setTimeout(() => {
+            MessageScreen.removeAttribute("style");
+            MessageScreen.textContent = "";
+        }, 2000);
         return;
     }
 
@@ -265,7 +280,7 @@ function loadAddEmployeeScript() {
         const uploadSvg = empImgFrame.querySelector(".uploadSvg");
 
         fileInput.addEventListener("change", (event) => {
-            handleFile(event, empImgFrame, uploadSvg, empImg);
+            handleFile(event, empImgFrame, uploadSvg, empImg, MessageScreen);
         });
 
         tabs.forEach(btn => {

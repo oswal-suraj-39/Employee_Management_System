@@ -198,4 +198,5 @@ input[type="date"]::-webkit-input-placeholder {
     font-size: 12rem;
     font-weight: bold;
     backdrop-filter: blur(2px);
+    z-index: 2;
 }

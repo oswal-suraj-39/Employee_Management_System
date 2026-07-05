@@ -80,6 +80,18 @@ async function fetchData(cardContainer) {
 
     const data = await response.json();
 
+	/*if (data.status === "error") {
+		MessageScreen.style.display = "flex";
+		MessageScreen.style.backgroundColor = "rgba(219 22 22 / 50%)";
+		MessageScreen.style.color = "rgb(76 7 7)";
+		MessageScreen.textContent = "Error!";
+		setTimeout(() => {
+			MessageScreen.removeAttribute("style");
+		    MessageScreen.textContent = "";
+		}, 2000);
+		return;
+	}*/
+	
     data.forEach((emp) => {
         // console.log(emp);
         const fullName = emp.empFirstName + " " + emp.empLastName;
@@ -116,8 +128,8 @@ async function fetchData(cardContainer) {
     const images = cardContainer.querySelectorAll(".photoFrame img");
     const cards = cardContainer.querySelectorAll(".card");
     cards.forEach((card, index) => {
-        card.onclick = () => {
-            const btn = card.querySelector(".viewBtn");
+        const btn = card.querySelector(".viewBtn");
+        btn.onclick = () => {
             const data = fetchDataByEID(btn);
             loadPage(btn.getAttribute("data-page"));
         }
