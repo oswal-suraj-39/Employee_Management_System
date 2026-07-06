@@ -19,7 +19,7 @@
                             <div class="placeholder">Last Name</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField genderInput" readonly required>
+                            <input type="text" class="inputField genderInput" readonly required data-page="SelectionON">
                             <div class="placeholder">Gender</div>
                             <div class="genderSelection">
                                 <ul>
@@ -128,7 +128,7 @@
                             <div class="placeholder">Job title / Role</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField employeeTypeInput" readonly required>
+                            <input type="text" class="inputField employeeTypeInput" readonly required data-page="SelectionON">
                             <div class="placeholder">Employee Type</div>
                             <div class="employeeTypeSelection">
                                 <ul>
@@ -258,7 +258,7 @@
                             <div class="placeholder">Join Date</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField employeeStatusInput" readonly required>
+                            <input type="text" class="inputField employeeStatusInput" readonly required data-page="SelectionON">
                             <div class="placeholder">Employee Status</div>
                             <div class="employeeStatusSelection">
                                 <ul>
@@ -345,13 +345,10 @@
                 </div>
             </label>
 
-            <div class="MessageScreen">
-            </div>
-
         </div>
         <section class="btnSection">
-            <button type="button" class="updateBtn">Update</button>
-            <button type="button" class="deleteBtn">Delete</button>
+            <button type="button" class="updateBtn" hidden>Update</button>
+            <button type="button" class="deleteBtn" hidden>Delete</button>
             <button type="button" class="saveBtn" hidden>Save</button>
         </section>
     </form>

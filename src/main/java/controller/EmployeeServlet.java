@@ -274,6 +274,7 @@ public class EmployeeServlet extends HttpServlet {
 					empData.put("empJoinDate",Date.valueOf(rs3.getString("join_date")));
 					empData.put("empStatus",rs3.getString("employee_status"));
 				}
+				
 				response.getWriter().print(empData);
 			}
 

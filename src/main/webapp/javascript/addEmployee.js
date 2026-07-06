@@ -20,15 +20,15 @@ function handleFile(e, empImgFrame, uploadSvg, empImg, MessageScreen) {
         if (file.size > 4 * 1024 * 1024) {
             console.warn("image is 4MB size limit");
             e.target.value = "";
-			MessageScreen.style.display = "flex";
-			MessageScreen.style.backgroundColor = "rgba(219 219 22 / 50%)";
-			MessageScreen.style.color = "rgb(94 94 10)";
-			MessageScreen.textContent = "Warning!";
-			setTimeout(() => {
-				MessageScreen.removeAttribute("style");
-				MessageScreen.textContent = "";
-			}, 2000);
-			return;
+            MessageScreen.style.display = "flex";
+            MessageScreen.style.backgroundColor = "rgba(219 219 22 / 50%)";
+            MessageScreen.style.color = "rgb(94 94 10)";
+            MessageScreen.textContent = "Warning!";
+            setTimeout(() => {
+                MessageScreen.removeAttribute("style");
+                MessageScreen.textContent = "";
+            }, 2000);
+            return;
         }
 
         previewFile(file, empImgFrame, uploadSvg, empImg);
@@ -96,24 +96,21 @@ async function saveEmployeeData(mainContent4, MessageScreen) {
 function loadAddEmployeeScript() {
     try {
         const mainContent4 = document.querySelector(".mainContent");
+        const MessageScreen = mainContent4.querySelector(".MessageScreen");
         const btns = document.querySelectorAll(".btnSection button");
         const inputContainer = mainContent4.querySelector(".inputContainer");
         const genderRadios = inputContainer.querySelectorAll('input[name="gender"]');
         const employeeTypeRadios = inputContainer.querySelectorAll('input[name="emptype"]');
         const employeeStatusRadios = inputContainer.querySelectorAll('input[name="empStatus"]');
         const empImgFrame = inputContainer.querySelector(".empImgFrame");
-        const MessageScreen = inputContainer.querySelector(".MessageScreen");
         const empImg = empImgFrame.querySelector(".empImg");
         const addEmpBtn = sidePanel.querySelector("button[data-page='add-employees']");
         const lineColor = addEmpBtn.querySelector(".LineColor");
         const lineColor2 = addEmpBtn.querySelector(".LineColor2");
 
         btns.forEach(b => {
-
-            if (b.classList.contains("saveBtn") && b.hidden === true) {
-                b.hidden = false;
-            } else {
-                b.hidden = true;
+            if (b.classList.contains("saveBtn")) {
+                b.removeAttribute("hidden");
             }
 
             b.onclick = (event) => {
@@ -155,7 +152,7 @@ function loadAddEmployeeScript() {
                 inputField.showPicker();
             }
 
-            if (genderInput) {
+            if (genderInput && genderInput.dataset.page === "SelectionON") {
                 const genderSelection = inputOutline.querySelector(".genderSelection");
 
                 genderSelection.classList.toggle("open");
@@ -167,25 +164,20 @@ function loadAddEmployeeScript() {
                 } else {
                     genderSelection.removeAttribute("style");
                 }
-            } else if (employeeTypeInput) {
+            } else if (employeeTypeInput && employeeTypeInput.dataset.page === "SelectionON") {
 
                 const employeeTypeSelection = inputOutline.querySelector(".employeeTypeSelection");
-
                 employeeTypeSelection.classList.toggle("open");
 
                 if (employeeTypeSelection.classList.contains("open")) {
-
                     employeeTypeSelection.style.top = "2.5rem";
                     employeeTypeSelection.style.opacity = "1";
                     employeeTypeSelection.style.zIndex = "3";
 
                 } else {
-
                     employeeTypeSelection.removeAttribute("style");
-
                 }
-            }
-            if (employeeStatusInput) {
+            } else if (employeeStatusInput && employeeStatusInput.dataset.page === "SelectionON") {
 
                 const employeeStatusSelection = inputOutline.querySelector(".employeeStatusSelection");
 
@@ -202,6 +194,7 @@ function loadAddEmployeeScript() {
                 }
             }
         });
+
         genderRadios.forEach(radio => {
             radio.addEventListener("change", () => {
 

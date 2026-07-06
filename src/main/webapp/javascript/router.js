@@ -27,6 +27,9 @@ function loadPage(page) {
         .then(response => response.text())
         .then(data => {
             mainContent.innerHTML = data;
+            let div = document.createElement("div");
+            div.classList.add("MessageScreen");
+			mainContent.appendChild(div);
             if (page === "viewEmployee") {
                 loadViewEmployeeScript();
             } else if (page === "addEmployee") {
@@ -34,7 +37,7 @@ function loadPage(page) {
             }
         })
         .catch(error => {
-            console.error('Page loading failed');
+            console.error('Page loading failed' + error);
         });
     
 }
