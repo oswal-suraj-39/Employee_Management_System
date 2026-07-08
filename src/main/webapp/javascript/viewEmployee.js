@@ -1,3 +1,26 @@
+async function updateEmplyeeData(mainContent3) {
+    let columns = [];
+    let newValues = [];
+    const updateBtn = mainContent3.querySelector(".updateBtn");
+
+    mainContent3.addEventListener("dblclick", (event) => {
+        const inputOutline = event.target.closest(".inputOutline");
+        if (!inputOutline) return;
+        const inputField = inputOutline.querySelector(".inputField");
+        inputField.removeAttribute("readonly");
+        columns.push(inputField.name);
+        newValues.puch(inputField);
+    });
+
+    updateBtn.onclick = function() {
+        console.log(columns);
+        for (let i = 0; i < newValues.length; i++) {
+			newValues[i] = newValues[i].value;
+		}
+		console.log(newValues);
+    };
+}
+
 async function fetchDataByEID(btn) {
 
     const formData = new FormData();
@@ -20,49 +43,49 @@ async function fetchDataByEID(btn) {
     const options = mainContent3.querySelectorAll('input[name="gender"], input[name="emptype"], input[name="empStatus"]');
 
     empID.value = EmpDataForEdit.empID;
-	empID.setAttribute("readonly", true);
+    empID.setAttribute("readonly", true);
     empFirstName.value = EmpDataForEdit.empFirstName;
-	empFirstName.setAttribute("readonly", true);
+    empFirstName.setAttribute("readonly", true);
     empLastName.value = EmpDataForEdit.empLastName;
-	empLastName.setAttribute("readonly", true);
-	
+    empLastName.setAttribute("readonly", true);
+
     empGender.value = EmpDataForEdit.empGender;
-	empGender.dataset.page = "SeletionOFF";
+    empGender.dataset.page = "SelectionOFF";
     empDOB.value = EmpDataForEdit.empDOB;
-	empDOB.dataset.page = "SeletionOFF";
+    empDOB.setAttribute("readonly", true);
     empSalary.value = EmpDataForEdit.empSalary;
-	empSalary.dataset.page = "SeletionOFF";
-	
+    empSalary.setAttribute("readonly", true);
+
     empImgFrame.style.borderWidth = "2px";
     uploadSvg.style.display = "none";
     empImg.style.display = "block";
     empImg.src = EmpDataForEdit.empPhoto;
 
     empEmail.value = EmpDataForEdit.empEmail;
-	empEmail.setAttribute("readonly", true);
+    empEmail.setAttribute("readonly", true);
     empPhone.value = EmpDataForEdit.empPhone;
-	empPhone.setAttribute("readonly", true);
+    empPhone.setAttribute("readonly", true);
     empAddress.value = EmpDataForEdit.empAddress;
-	empAddress.setAttribute("readonly", true);
+    empAddress.setAttribute("readonly", true);
     empCity.value = EmpDataForEdit.empCity;
-	empCity.setAttribute("readonly", true);
+    empCity.setAttribute("readonly", true);
     empState.value = EmpDataForEdit.empState;
-	empState.setAttribute("readonly", true);
+    empState.setAttribute("readonly", true);
     empCountry.value = EmpDataForEdit.empCountry;
-	empCountry.setAttribute("readonly", true);
+    empCountry.setAttribute("readonly", true);
     empPincode.value = EmpDataForEdit.empPincode;
-	empPincode.setAttribute("readonly", true);
+    empPincode.setAttribute("readonly", true);
 
     empDeptName.value = EmpDataForEdit.empDeptName;
-	empDeptName.setAttribute("readonly", true);
+    empDeptName.setAttribute("readonly", true);
     empJobTitle.value = EmpDataForEdit.empJobTitle;
-	empJobTitle.setAttribute("readonly", true);
+    empJobTitle.setAttribute("readonly", true);
     empType.value = EmpDataForEdit.empType;
-	empType.setAttribute("readonly", true);
+    empType.dataset.page = "SelectionOFF";
     empJoinDate.value = EmpDataForEdit.empJoinDate;
-	empJoinDate.setAttribute("readonly", true);
+    empJoinDate.setAttribute("readonly", true);
     empStatus.value = EmpDataForEdit.empStatus;
-	empStatus.setAttribute("readonly", true);
+    empStatus.dataset.page = "SelectionOFF";
 
     [empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus].forEach((ele) => {
         ele.style.color = "var(--text-color3)";
@@ -95,7 +118,7 @@ async function fetchDataByEID(btn) {
     });
 }
 
-async function fetchData(cardContainer, MessageScreen) {
+async function fetchData(mainContent3, cardContainer, MessageScreen) {
     const formData = new FormData();
     formData.append("action", "viewAllEmployees");
 
@@ -154,14 +177,6 @@ async function fetchData(cardContainer, MessageScreen) {
     const images = cardContainer.querySelectorAll(".photoFrame img");
     const cards = cardContainer.querySelectorAll(".card");
 
-    cards.forEach((card) => {
-        const btn = card.querySelector(".viewBtn");
-        btn.onclick = () => {
-            fetchDataByEID(btn);
-            loadPage(btn.getAttribute("data-page"));
-        }
-    });
-
     const colorThief = new ColorThief();
     if (colorThief) {
         images.forEach((img, index) => {
@@ -185,6 +200,15 @@ async function fetchData(cardContainer, MessageScreen) {
             });
         });
 
+        cards.forEach((card) => {
+            const btn = card.querySelector(".viewBtn");
+            btn.onclick = () => {
+                fetchDataByEID(btn);
+                loadPage(btn.getAttribute("data-page"));
+                updateEmplyeeData(mainContent3);
+            }
+        });
+
     } else {
         console.log(cardContainer);
         const cards = cardContainer.querySelectorAll(".card");
@@ -205,7 +229,7 @@ function loadViewEmployeeScript() {
         const mainContent3 = document.querySelector(".mainContent");
         const MessageScreen = mainContent3.querySelector(".MessageScreen");
         let cardContainer = mainContent3.querySelector(".cardContainer");
-        fetchData(cardContainer, MessageScreen);
+        fetchData(mainContent3, cardContainer, MessageScreen);
     } catch (error) {
         console.log(error);
     }
