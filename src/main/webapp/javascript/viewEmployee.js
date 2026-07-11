@@ -2,20 +2,40 @@ async function updateEmplyeeData(mainContent3) {
     let columns = [];
     let newValues = [];
     const updateBtn = mainContent3.querySelector(".updateBtn");
-
-    mainContent3.addEventListener("dblclick", (event) => {
+	
+    mainContent3.addEventListener("click", (event) => {
         const inputOutline = event.target.closest(".inputOutline");
         if (!inputOutline) return;
+		
         const inputField = inputOutline.querySelector(".inputField");
-        inputField.removeAttribute("readonly");
-        columns.push(inputField.name);
-        newValues.puch(inputField);
+		if (inputField.hasAttribute("readonly") && 
+		inputField.name !== "gender" && 
+		inputField.name !== "employee_type" && 
+		inputField.name !== "employee_status") {
+			inputField.removeAttribute("readonly");
+		}
+		
+		if (!columns.includes(inputField.name)) {
+			columns.push(inputField.name);
+		}
+		
+		if (inputField.name !== "gender" && 
+		inputField.name !== "employee_type" && 
+		inputField.name !== "employee_status") {
+			let i = columns.indexOf(inputField.name);
+			console.log(inputField.name+" = "+i);
+			newValues[i] = inputField;
+		}
+		
+		 
     });
-
+	
     updateBtn.onclick = function() {
         console.log(columns);
-        for (let i = 0; i < newValues.length; i++) {
-			newValues[i] = newValues[i].value;
+		for (let i = 0; i < newValues.length; i++) {
+			if (newValues[i].value !== undefined) {
+				newValues[i] = newValues[i].value;	
+			}
 		}
 		console.log(newValues);
     };
@@ -118,7 +138,7 @@ async function fetchDataByEID(btn) {
     });
 }
 
-async function fetchData(mainContent3, cardContainer, MessageScreen) {
+async function fetchData(cardContainer, MessageScreen) {
     const formData = new FormData();
     formData.append("action", "viewAllEmployees");
 
@@ -202,11 +222,16 @@ async function fetchData(mainContent3, cardContainer, MessageScreen) {
 
         cards.forEach((card) => {
             const btn = card.querySelector(".viewBtn");
-            btn.onclick = () => {
-                fetchDataByEID(btn);
-                loadPage(btn.getAttribute("data-page"));
-                updateEmplyeeData(mainContent3);
-            }
+			btn.onclick = async () => {
+
+			    await loadPage(btn.getAttribute("data-page"));
+
+			    await fetchDataByEID(btn);
+
+			    const mainContent = document.querySelector(".mainContent");
+
+			    updateEmplyeeData(mainContent);
+			};
         });
 
     } else {
@@ -229,7 +254,7 @@ function loadViewEmployeeScript() {
         const mainContent3 = document.querySelector(".mainContent");
         const MessageScreen = mainContent3.querySelector(".MessageScreen");
         let cardContainer = mainContent3.querySelector(".cardContainer");
-        fetchData(mainContent3, cardContainer, MessageScreen);
+        fetchData(cardContainer, MessageScreen);
     } catch (error) {
         console.log(error);
     }

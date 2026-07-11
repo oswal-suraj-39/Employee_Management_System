@@ -1,7 +1,7 @@
 // console.log("Router script loaded");
 const mainContent = document.querySelector(".mainContent");
 const pageTitle = document.querySelector(".pageTitle");
-function loadPage(page) {
+async function loadPage(page) {
     // console.log("Loading page: " + page);
     if (page === "dashboard") {
         page = "dashboard";
@@ -23,22 +23,20 @@ function loadPage(page) {
 	// const url = `html/${page}.html`; 
 	// console.log("url: "+url);
 	// console.log("page: "+page);
-    fetch(`html/${page}.html`)
-        .then(response => response.text())
-        .then(data => {
-            mainContent.innerHTML = data;
-            let div = document.createElement("div");
-            div.classList.add("MessageScreen");
-			mainContent.appendChild(div);
-            if (page === "viewEmployee") {
-                loadViewEmployeeScript();
-            } else if (page === "addEmployee") {
-                loadAddEmployeeScript();
-            }
-        })
-        .catch(error => {
-            console.error('Page loading failed' + error);
-        });
+	const response = await fetch(`html/${page}.html`);
+	const data = await response.text();
+
+	mainContent.innerHTML = data;
+
+	let div = document.createElement("div");
+	div.classList.add("MessageScreen");
+	mainContent.appendChild(div);
+
+	if (page === "viewEmployee") {
+	    loadViewEmployeeScript();
+	} else if (page === "addEmployee") {
+	    loadAddEmployeeScript();
+	}
     
 }
 

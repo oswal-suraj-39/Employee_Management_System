@@ -7,7 +7,7 @@
                     <h2>Basic Information</h2>
                     <div class="inputGroup">
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="employee_id" required>
                             <div class="placeholder">Employee ID</div>
                         </div>
                         <div class="inputOutline">
@@ -15,11 +15,11 @@
                             <div class="placeholder">First Name</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="last_name" required>
                             <div class="placeholder">Last Name</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField genderInput" readonly required data-page="SelectionON">
+                            <input type="text" class="inputField genderInput" readonly required data-page="SelectionON" name="gender">
                             <div class="placeholder">Gender</div>
                             <div class="genderSelection">
                                 <ul>
@@ -72,11 +72,11 @@
                             </div>
                         </div>
                         <div class="inputOutline">
-                            <input type="date" class="inputField" required>
+                            <input type="date" class="inputField" name="dob" required>
                             <div class="placeholder">DOB</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="number" class="inputField" min="0.00" required>
+                            <input type="number" class="inputField" name="salary" min="0.00" required>
                             <div class="placeholder">Salary</div>
                         </div>
                     </div>
@@ -86,31 +86,31 @@
                     <h2>Contact Information</h2>
                     <div class="inputGroup">
                         <div class="inputOutline">
-                            <input type="email" class="inputField" required>
+                            <input type="email" class="inputField" name="email" required>
                             <div class="placeholder">Email</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="number" class="inputField" required>
+                            <input type="number" class="inputField" name="phone" required>
                             <div class="placeholder">Phone Number</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="address" required>
                             <div class="placeholder">Address</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="city" required>
                             <div class="placeholder">City</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="state" required>
                             <div class="placeholder">State</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="country" required>
                             <div class="placeholder">Country</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="pincode" required>
                             <div class="placeholder">Pincode</div>
                         </div>
                     </div>
@@ -120,15 +120,15 @@
                     <h2>Job / Work Information</h2>
                     <div class="inputGroup">
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="dept_name" required>
                             <div class="placeholder">Department</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField" required>
+                            <input type="text" class="inputField" name="job_title" required>
                             <div class="placeholder">Job title / Role</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField employeeTypeInput" readonly required data-page="SelectionON">
+                            <input type="text" class="inputField employeeTypeInput" readonly required data-page="SelectionON" name="employee_type">
                             <div class="placeholder">Employee Type</div>
                             <div class="employeeTypeSelection">
                                 <ul>
@@ -254,11 +254,11 @@
                             </div>
                         </div>
                         <div class="inputOutline">
-                            <input type="date" class="inputField" required>
+                            <input type="date" class="inputField" required name="join_date">
                             <div class="placeholder">Join Date</div>
                         </div>
                         <div class="inputOutline">
-                            <input type="text" class="inputField employeeStatusInput" readonly required data-page="SelectionON">
+                            <input type="text" class="inputField employeeStatusInput" readonly required data-page="SelectionON" name="employee_status">
                             <div class="placeholder">Employee Status</div>
                             <div class="employeeStatusSelection">
                                 <ul>
@@ -327,7 +327,7 @@
             </div>
 
             <label class="empImgFrame">
-                <input type="file" class="imageUpload" accept="image/*" hidden>
+                <input type="file" class="imageUpload" name="photo_path" accept="image/*" hidden readonly>
                 <img class="empImg">
                 <div class="uploadSvg">
                     <svg width="150px" height="150px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
