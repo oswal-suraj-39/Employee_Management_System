@@ -1,3 +1,121 @@
+async function daleteEmployeeDate(MessageScreen) {
+    const mainContent4 = document.querySelector(".mainContent");
+    const [employee_id, deleteBtn] = mainContent4.querySelectorAll('input[name="employee_id"], .deleteBtn');
+
+    deleteBtn.onclick = async function() {
+        console.log(employee_id.value);
+		
+		const formData = new FormData();
+		formData.append("action", "deleteEmployeeDataByID");
+		formData.append("empID", employee_id.value);
+		
+        const response = await fetch("EmployeeServlet", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.EmployeeDataDelete === "error" || result.status === "error") {
+            MessageScreen.style.display = "flex";
+            MessageScreen.style.backgroundColor = "rgba(219 22 22 / 50%)";
+            MessageScreen.style.color = "rgb(76 7 7)";
+            MessageScreen.textContent = "Error!";
+            setTimeout(() => {
+                MessageScreen.removeAttribute("style");
+                MessageScreen.textContent = "";
+            }, 2000);
+            return;
+        }
+
+        if (result.EmployeeDataDelete === "ok") {
+            MessageScreen.style.display = "flex";
+            MessageScreen.textContent = "Delete!";
+            setTimeout(() => {
+                MessageScreen.removeAttribute("style");
+                MessageScreen.textContent = "";
+            }, 1000);
+			const [empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus] = mainContent4.querySelectorAll(".inputField");
+			[empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus].forEach(ele => {
+				ele.value = "";
+			});
+			const Radios = mainContent4.querySelectorAll('input[name="gender"], input[name="emptype"], input[name="empStatus"]');
+			Radios.forEach(ra => {
+				if (ra.checked) {
+					ra.checked = false;
+				}
+			});
+        }
+    }
+}
+
+async function updateEmplyeeData(mainContent4, columns, newValues, MessageScreen) {
+
+    const [employee_id, updateBtn] = mainContent4.querySelectorAll('input[name="employee_id"], .updateBtn');
+    updateBtn.onclick = async function() {
+        for (let i = 0;i < newValues.length;i++) {
+            if (newValues[i].value !== undefined) {
+                newValues[i] = newValues[i].value;
+            }
+        }
+
+        const formData = new FormData();
+
+        formData.append("action", "upadateEmployeeDataByID");
+        formData.append("empID", employee_id.value);
+
+        const index = columns.indexOf("photo_path");
+        if (index !== -1) {
+            formData.append("empPhoto", newValues[index]);
+        }
+
+        columns.forEach(col => {
+            formData.append("columnsName", col);
+        });
+        newValues.forEach(val => {
+            if (val instanceof File) {
+                formData.append("newValues", "imagePath");
+            } else {
+                formData.append("newValues", val);
+            }
+
+        });
+
+        const response = await fetch("EmployeeServlet", {
+            method: "POST",
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if ((result.EmployeeDataUpdate === "error" ||
+            result.ContactDataUpdate === "error" ||
+            result.DepartmentDataUpdate === "error") ||
+            result.status === "error") {
+            MessageScreen.style.display = "flex";
+            MessageScreen.style.backgroundColor = "rgba(219 22 22 / 50%)";
+            MessageScreen.style.color = "rgb(76 7 7)";
+            MessageScreen.textContent = "Error!";
+            setTimeout(() => {
+                MessageScreen.removeAttribute("style");
+                MessageScreen.textContent = "";
+            }, 2000);
+            return;
+        }
+
+        if (result.EmployeeDataUpdate === "ok" ||
+            result.ContactDataUpdate === "ok" ||
+            result.DepartmentDataUpdate === "ok") {
+            MessageScreen.style.display = "flex";
+            MessageScreen.textContent = "Update!";
+            setTimeout(() => {
+                MessageScreen.removeAttribute("style");
+                MessageScreen.textContent = "";
+            }, 1000);
+        }
+    };
+}
+
 function previewFile(file, empImgFrame, uploadSvg, empImg) {
 
     const reader = new FileReader();
@@ -108,6 +226,9 @@ function loadAddEmployeeScript() {
         const lineColor = addEmpBtn.querySelector(".LineColor");
         const lineColor2 = addEmpBtn.querySelector(".LineColor2");
 
+        let columns = [];
+        let newValues = [];
+
         btns.forEach(b => {
             if (b.classList.contains("saveBtn")) {
                 b.removeAttribute("hidden");
@@ -125,74 +246,108 @@ function loadAddEmployeeScript() {
 
         inputContainer.addEventListener("click", (event) => {
             const inputOutline = event.target.closest(".inputOutline");
+            if (inputOutline) {
+                const inputField = inputOutline.querySelector(".inputField");
+                const placeholder = inputOutline.querySelector(".placeholder");
+                const genderInput = inputOutline.querySelector(".genderInput");
+                const employeeTypeInput = inputOutline.querySelector(".employeeTypeInput");
+                const employeeStatusInput = inputOutline.querySelector(".employeeStatusInput");
 
-            if (!inputOutline) return;
-
-            const inputField = inputOutline.querySelector(".inputField");
-            const placeholder = inputOutline.querySelector(".placeholder");
-            const genderInput = inputOutline.querySelector(".genderInput");
-            const employeeTypeInput = inputOutline.querySelector(".employeeTypeInput");
-            const employeeStatusInput = inputOutline.querySelector(".employeeStatusInput");
-
-            if (!placeholder.hasAttribute("style")) {
-                placeholder.style.color = "var(--text-color3)";
-                placeholder.style.height = "0.5rem";
-                placeholder.style.lineHeight = "0.5rem";
-                placeholder.style.transform = "translate(-0.5rem, -0.2rem) scale(0.85)";
-                placeholder.style.zIndex = "2";
-                placeholder.style.padding = "0 0.5rem";
-                placeholder.style.fontSize = "0.9em";
-            }
-
-            if (inputField) {
-                inputField.style.color = "var(--text-color3)";
-            }
-
-            if (inputField.type === "date") {
-                inputField.showPicker();
-            }
-
-            if (genderInput && genderInput.dataset.page === "SelectionON") {
-                const genderSelection = inputOutline.querySelector(".genderSelection");
-
-                genderSelection.classList.toggle("open");
-
-                if (genderSelection.classList.contains("open")) {
-                    genderSelection.style.top = "2.5rem";
-                    genderSelection.style.opacity = "1";
-                    genderSelection.style.zIndex = "3";
-                } else {
-                    genderSelection.removeAttribute("style");
+                if (!placeholder.hasAttribute("style")) {
+                    placeholder.style.color = "var(--text-color3)";
+                    placeholder.style.height = "0.5rem";
+                    placeholder.style.lineHeight = "0.5rem";
+                    placeholder.style.transform = "translate(-0.5rem, -0.2rem) scale(0.85)";
+                    placeholder.style.zIndex = "2";
+                    placeholder.style.padding = "0 0.5rem";
+                    placeholder.style.fontSize = "0.9em";
                 }
-            } else if (employeeTypeInput && employeeTypeInput.dataset.page === "SelectionON") {
 
-                const employeeTypeSelection = inputOutline.querySelector(".employeeTypeSelection");
-                employeeTypeSelection.classList.toggle("open");
-
-                if (employeeTypeSelection.classList.contains("open")) {
-                    employeeTypeSelection.style.top = "2.5rem";
-                    employeeTypeSelection.style.opacity = "1";
-                    employeeTypeSelection.style.zIndex = "3";
-
-                } else {
-                    employeeTypeSelection.removeAttribute("style");
+                if (inputField) {
+                    inputField.style.color = "var(--text-color3)";
                 }
-            } else if (employeeStatusInput && employeeStatusInput.dataset.page === "SelectionON") {
 
-                const employeeStatusSelection = inputOutline.querySelector(".employeeStatusSelection");
+                if (inputField.type === "date") {
+                    inputField.showPicker();
+                }
 
-                employeeStatusSelection.classList.toggle("open");
+                if (genderInput) {
+                    const genderSelection = inputOutline.querySelector(".genderSelection");
+                    genderSelection.classList.toggle("open");
 
-                if (employeeStatusSelection.classList.contains("open")) {
+                    if (genderSelection.classList.contains("open")) {
+                        genderSelection.style.top = "2.5rem";
+                        genderSelection.style.opacity = "1";
+                        genderSelection.style.zIndex = "3";
+                    } else {
+                        genderSelection.removeAttribute("style");
+                    }
+                } else if (employeeTypeInput) {
+                    const employeeTypeSelection = inputOutline.querySelector(".employeeTypeSelection");
+                    employeeTypeSelection.classList.toggle("open");
 
-                    employeeStatusSelection.style.top = "2.5rem";
-                    employeeStatusSelection.style.opacity = "1";
-                    employeeStatusSelection.style.zIndex = "3";
+                    if (employeeTypeSelection.classList.contains("open")) {
+                        employeeTypeSelection.style.top = "2.5rem";
+                        employeeTypeSelection.style.opacity = "1";
+                        employeeTypeSelection.style.zIndex = "3";
+                    } else {
+                        employeeTypeSelection.removeAttribute("style");
+                    }
+                } else if (employeeStatusInput) {
+                    const employeeStatusSelection = inputOutline.querySelector(".employeeStatusSelection");
+                    employeeStatusSelection.classList.toggle("open");
 
-                } else {
-                    employeeStatusSelection.removeAttribute("style");
+                    if (employeeStatusSelection.classList.contains("open")) {
+                        employeeStatusSelection.style.top = "2.5rem";
+                        employeeStatusSelection.style.opacity = "1";
+                        employeeStatusSelection.style.zIndex = "3";
+                    } else {
+                        employeeStatusSelection.removeAttribute("style");
+                    }
+                }
+
+                if (inputContainer.dataset.page === "editModeON") {
+                    if (inputField.hasAttribute("readonly") &&
+                        inputField.name !== "employee_id" &&
+                        inputField.name !== "gender" &&
+                        inputField.name !== "employee_type" &&
+                        inputField.name !== "employee_status") {
+                        inputField.removeAttribute("readonly");
+                    }
+
+                    if (inputField.name !== "employee_id" &&
+                        !columns.includes(inputField.name)) {
+                        columns.push(inputField.name);
+                    }
+
+                    if (inputField.name !== "employee_id") {
+                        let i = columns.indexOf(inputField.name);
+                        /*console.log(inputField.name + " = " + i);*/
+                        newValues[i] = inputField;
+                    }
                 }
             }
+
+            const empImgFrame = event.target.closest(".empImgFrame");
+            if (empImgFrame) {
+                if (inputContainer.dataset.page === "editModeON") {
+                    const imageUpload = empImgFrame.querySelector(".imageUpload");
+
+                    if (imageUpload.name === "photo_path" && !columns.includes(imageUpload.name)) {
+                        columns.push(imageUpload.name);
+                        imageUpload.addEventListener("input", () => {
+                            let i = columns.indexOf(imageUpload.name);
+                            newValues[i] = imageUpload.files[0];
+                        });
+                    }
+
+                }
+            }
+
+            if (inputContainer.dataset.page === "editModeON") {
+                updateEmplyeeData(mainContent4, columns, newValues, MessageScreen);
+            }
+
         });
 
         genderRadios.forEach(radio => {
@@ -301,6 +456,8 @@ function loadAddEmployeeScript() {
         } else if (lineColor2) {
             lineColor2.classList.add("LineColorGreen2");
         }
+
+        daleteEmployeeDate(MessageScreen);
 
     } catch (error) {
         console.log(error);

@@ -1,46 +1,3 @@
-async function updateEmplyeeData(mainContent3) {
-    let columns = [];
-    let newValues = [];
-    const updateBtn = mainContent3.querySelector(".updateBtn");
-	
-    mainContent3.addEventListener("click", (event) => {
-        const inputOutline = event.target.closest(".inputOutline");
-        if (!inputOutline) return;
-		
-        const inputField = inputOutline.querySelector(".inputField");
-		if (inputField.hasAttribute("readonly") && 
-		inputField.name !== "gender" && 
-		inputField.name !== "employee_type" && 
-		inputField.name !== "employee_status") {
-			inputField.removeAttribute("readonly");
-		}
-		
-		if (!columns.includes(inputField.name)) {
-			columns.push(inputField.name);
-		}
-		
-		if (inputField.name !== "gender" && 
-		inputField.name !== "employee_type" && 
-		inputField.name !== "employee_status") {
-			let i = columns.indexOf(inputField.name);
-			console.log(inputField.name+" = "+i);
-			newValues[i] = inputField;
-		}
-		
-		 
-    });
-	
-    updateBtn.onclick = function() {
-        console.log(columns);
-		for (let i = 0; i < newValues.length; i++) {
-			if (newValues[i].value !== undefined) {
-				newValues[i] = newValues[i].value;	
-			}
-		}
-		console.log(newValues);
-    };
-}
-
 async function fetchDataByEID(btn) {
 
     const formData = new FormData();
@@ -55,6 +12,7 @@ async function fetchDataByEID(btn) {
     const EmpDataForEdit = await response.json();
 
     const mainContent3 = document.querySelector(".mainContent");
+	const inputContainer = mainContent3.querySelector(".inputContainer");
     const btns = mainContent3.querySelectorAll(".btnSection button");
     const [empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus] = mainContent3.querySelectorAll(".inputField");
     const placeholders = mainContent3.querySelectorAll(".placeholder");
@@ -62,19 +20,15 @@ async function fetchDataByEID(btn) {
     const [empImg, uploadSvg] = empImgFrame.querySelectorAll(".empImg, .uploadSvg");
     const options = mainContent3.querySelectorAll('input[name="gender"], input[name="emptype"], input[name="empStatus"]');
 
+	inputContainer.dataset.page = "editModeON";
+	
     empID.value = EmpDataForEdit.empID;
-    empID.setAttribute("readonly", true);
     empFirstName.value = EmpDataForEdit.empFirstName;
-    empFirstName.setAttribute("readonly", true);
     empLastName.value = EmpDataForEdit.empLastName;
-    empLastName.setAttribute("readonly", true);
 
     empGender.value = EmpDataForEdit.empGender;
-    empGender.dataset.page = "SelectionOFF";
     empDOB.value = EmpDataForEdit.empDOB;
-    empDOB.setAttribute("readonly", true);
     empSalary.value = EmpDataForEdit.empSalary;
-    empSalary.setAttribute("readonly", true);
 
     empImgFrame.style.borderWidth = "2px";
     uploadSvg.style.display = "none";
@@ -82,30 +36,18 @@ async function fetchDataByEID(btn) {
     empImg.src = EmpDataForEdit.empPhoto;
 
     empEmail.value = EmpDataForEdit.empEmail;
-    empEmail.setAttribute("readonly", true);
     empPhone.value = EmpDataForEdit.empPhone;
-    empPhone.setAttribute("readonly", true);
     empAddress.value = EmpDataForEdit.empAddress;
-    empAddress.setAttribute("readonly", true);
     empCity.value = EmpDataForEdit.empCity;
-    empCity.setAttribute("readonly", true);
     empState.value = EmpDataForEdit.empState;
-    empState.setAttribute("readonly", true);
     empCountry.value = EmpDataForEdit.empCountry;
-    empCountry.setAttribute("readonly", true);
     empPincode.value = EmpDataForEdit.empPincode;
-    empPincode.setAttribute("readonly", true);
 
     empDeptName.value = EmpDataForEdit.empDeptName;
-    empDeptName.setAttribute("readonly", true);
     empJobTitle.value = EmpDataForEdit.empJobTitle;
-    empJobTitle.setAttribute("readonly", true);
     empType.value = EmpDataForEdit.empType;
-    empType.dataset.page = "SelectionOFF";
     empJoinDate.value = EmpDataForEdit.empJoinDate;
-    empJoinDate.setAttribute("readonly", true);
     empStatus.value = EmpDataForEdit.empStatus;
-    empStatus.dataset.page = "SelectionOFF";
 
     [empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus].forEach((ele) => {
         ele.style.color = "var(--text-color3)";
@@ -223,14 +165,8 @@ async function fetchData(cardContainer, MessageScreen) {
         cards.forEach((card) => {
             const btn = card.querySelector(".viewBtn");
 			btn.onclick = async () => {
-
 			    await loadPage(btn.getAttribute("data-page"));
-
 			    await fetchDataByEID(btn);
-
-			    const mainContent = document.querySelector(".mainContent");
-
-			    updateEmplyeeData(mainContent);
 			};
         });
 
