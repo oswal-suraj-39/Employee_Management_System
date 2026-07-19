@@ -7,7 +7,6 @@
 @font-face {
     font-family: "Roboto";
     src: url(../font/Roboto-Regular.ttf);
-    format: ("truetype");
 }
 
 :root {
@@ -25,11 +24,12 @@
     --text-color2: black;
     --text-color3: black;
     --text-color4: white;
+    --text-color5: black;
+    --text-color6: white;
     --flex-position: flex-start;
     --transform-scale: scale(1);
     --opacity: 0;
-    --text-shadow: 0 0 0 transparent;
-    --text-shadow2: 0 0 2px rgba(0, 0, 0); 
+    --text-shadow: 0 0 2px rgba(0, 0, 0);
 }
 
 body.dark {
@@ -47,11 +47,12 @@ body.dark {
     --text-color2: white;
     --text-color3: #16db65;
     --text-color4: black;
+    --text-color5: #06391a;
+    --text-color6: #06391a;
     --flex-position: flex-end;
     --transform-scale: scale(1.7);
     --opacity: 1;
-    --text-shadow: 0 0 3px black;
-    --text-shadow2: 0 0 0 transparent;
+    --text-shadow: 0 0 0 transparent;
 }
 
 html {
@@ -115,8 +116,14 @@ body {
 .sidePanel button {
     outline: none;
     border: 2px solid transparent;
-    height: 3rem;
     overflow-wrap: anywhere;
+    flex-wrap: wrap;
+    min-height: 3rem;
+    height: fit-content;
+}
+
+.sidePanel p {
+	display: block;
 }
 
 .btn {
@@ -126,7 +133,7 @@ body {
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 1rem;
+    gap: 0.5rem 1rem;
     padding: 0.5rem 1rem;
 }
 
@@ -134,8 +141,7 @@ body {
     background-color: var(--color-3);
     font-weight: bold;
     cursor: pointer;
-    color: white;
-    text-shadow: var(--text-shadow);
+    color: var(--text-color6);
     width: 100%;
 }
 
@@ -152,8 +158,10 @@ body {
 
 .dbIcon {
     fill: none;
-    width: 28px;
-    height: 28px;
+    min-width: 28px;
+    min-height: 28px;
+    max-width: 28px;
+    max-height: 28px;
 }
 
 .LineColor {
@@ -164,8 +172,22 @@ body {
     stroke-width: 2;
 }
 
+.size1 {
+	min-width: 28px;
+	min-height: 28px;
+	max-width: 28px;
+	max-height: 28px;
+}
+
 .LineColor2 {
     fill: var(--text-color1);
+}
+
+.size2 {
+	min-width: 32px;
+	min-height: 32px;
+	max-width: 32px;
+	max-height: 32px;
 }
 
 .LineColorGreen {
@@ -177,9 +199,52 @@ body {
 }
 
 .btn:hover .LineColor {
-    stroke: white;
+    stroke: var(--text-color6);
 }
 
 .btn:hover .LineColor2 {
-    fill: white;
+    fill: var(--text-color6);
+}
+
+@media screen and (max-width: 768px) {
+	.btn {
+	    justify-content: center
+	}
+}
+
+/* @media screen and (max-width: 597px) {
+	
+} */
+
+@media screen and (max-width: 425px) {
+	.sidePanel p {
+		display: none;
+	}
+	.cardContainer {
+		gap: 0rem;
+	}
+	.card {
+	    transform: scale(0.85);
+	}
+}
+
+@media screen and (max-width: 375px) {
+	.sidePanel p {
+		display: none;
+	}
+	.cardContainer {
+		gap: 0rem;
+	}
+	.card {
+	    transform: scale(0.75);
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.cardContainer {
+		gap: 0rem;
+	}
+	.card {
+	    transform: scale(0.65);
+	}
 }

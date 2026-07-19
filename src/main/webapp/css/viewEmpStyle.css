@@ -1,10 +1,13 @@
 .cardContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(307px, 1fr));
-    grid-template-rows: repeat(auto-fit, minmax(285px, 1fr));
-    place-items: center;
-    gap: 1rem;
+    display: flex;
+    /* grid-template-columns: repeat(auto-fit, minmax(307px, 1fr));
+    grid-template-rows: repeat(auto-fit, minmax(285px, 1fr)); */
+    /* place-items: center; */
+    gap: 3rem;
     color: black;
+    min-width: 12rem;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .card {
@@ -30,7 +33,7 @@
 }
 
 .btnSection button {
-    text-shadow: var(--text-shadow2);
+    text-shadow: var(--text-shadow);
     color: var(--text-color4);
     background-color: var(--color-10);
 }
@@ -64,6 +67,7 @@
     outline: none;
     font-size: 1rem;
     background-color: transparent;
+    overflow-x: scroll;
 }
 
 input[type="number"]::-webkit-inner-spin-button {
@@ -77,4 +81,22 @@ input[type="number"]::-webkit-inner-spin-button {
     height: 17.78rem;
     overflow: hidden;
     border-radius: 0 1rem 1rem 0;
+}
+
+@media screen and (max-width: 425px) {
+	.cardContainer {
+		gap: 0rem;
+	}
+}
+
+@media screen and (max-width: 375px) {
+	.cardContainer {
+		gap: 0rem;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	.cardContainer {
+		gap: 0rem;
+	}
 }

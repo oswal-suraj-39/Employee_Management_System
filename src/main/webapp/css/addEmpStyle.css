@@ -121,27 +121,25 @@ input[type="date"]::-webkit-input-placeholder {
     background-color: var(--color-7);
     border-radius: 0.5rem;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
-    text-shadow: var(--text-shadow);
 }
 
 .genderSelection label:hover,
 .employeeTypeSelection label:hover,
 .employeeStatusSelection label:hover {
     background-color: var(--color-8);
-    color: var(--text-color2);
-    text-shadow: var(--text-shadow);
+    color: var(--text-color5);
 }
 
 .genderSelection label:hover .linehoverWhite,
 .employeeTypeSelection label:hover .linehoverWhite,
 .employeeStatusSelection label:hover .linehoverWhite {
-    fill: var(--text-color2);
+    fill: var(--text-color5);
 }
 
 .genderSelection label:hover .linehoverWhite2,
 .employeeTypeSelection label:hover .linehoverWhite2,
 .employeeStatusSelection label:hover .linehoverWhite2 {
-    stroke: var(--text-color2);
+    stroke: var(--text-color5);
 }
 
 .genderSelection input[type="radio" i],
