@@ -2,14 +2,15 @@ package controller;
 
 import java.io.File;
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.MultipartConfig;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.Part;
 import java.sql.ResultSet;
+import java.util.Arrays;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -71,17 +72,12 @@ public class EmployeeServlet extends HttpServlet {
 				response.setCharacterEncoding("UTF-8");
 
 				String fileName = photoPart.getSubmittedFileName();
-
 				String uploadPath = "C:\\Users\\hp\\eclipse-workspace\\EmployeeManagementSystem\\src\\main\\webapp\\upload";
-				
 				File uploadDir = new File(uploadPath);
-				
 				if (!uploadDir.exists()) {
 					uploadDir.mkdir();
 				}
-				
 				photoPart.write(uploadPath + File.separator + fileName);
-				
 				String photoPath = "./upload/" + fileName;
 			
 				Employee emp = new Employee();
@@ -159,125 +155,225 @@ public class EmployeeServlet extends HttpServlet {
 				}
 			}
 			
-			String requestedAction = request.getParameter("action");
-			
-			if (requestedAction != null && requestedAction.equals("viewAllEmployees")) {
-				
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-
-				EmployeeDAO eDAO = new EmployeeDAO();
-				ContactDAO cDAO = new ContactDAO();
-				DepartmentDAO dDAO = new DepartmentDAO();
-				
-				ResultSet rs1 = eDAO.getAllEmployeeDataForCards();
-				ResultSet rs4 = eDAO.getTotalCountOFEID();
-				ResultSet rs2 = cDAO.getAllContactDataForCards();
-				ResultSet rs3 = dDAO.getAllDepartmentDataForCards();
-				
-				int size = 0, i = 0;
-				
-				while (rs4.next()) {
-					size = rs4.getInt("count");
-				}
-				
-				Employee[] employee = new Employee[size];
-				Contact[] contact = new Contact[size];
-				Department[] department = new Department[size];
-				
-				JSONArray employees = new JSONArray();
-				JSONObject[] emp = new JSONObject[size];
-				
-				// employee_id, first_name, last_name, photo_path, email, dept_name, job_title
-				
-				while (rs1.next() && rs2.next() && rs3.next()){	
-					employee[i] = new Employee();
-					contact[i] = new Contact();
-					department[i] = new Department();
-					
-					employee[i].setEID(rs1.getInt("e_id"));
-					employee[i].setEmpID(rs1.getString("employee_id"));
-					employee[i].setFirstName(rs1.getString("first_name"));
-					employee[i].setLastName(rs1.getString("last_name"));
-					employee[i].setPhotoPath(rs1.getString("photo_path"));;
-					
-					contact[i].setEmail(rs2.getString("email"));
-					
-					department[i].setDeptName(rs3.getString("dept_name"));
-					department[i].setjobTitle(rs3.getString("job_title"));
-					
-					i++;
-				}
-				
-				for (int j = 0; j < size; j++) {
-					emp[j] = new JSONObject();
-					
-					emp[j].put("eid", employee[j].getEID());
-					emp[j].put("empID", employee[j].getEmpID());
-					emp[j].put("empFirstName", employee[j].getFirstName());
-					emp[j].put("empLastName", employee[j].getLastName());
-					emp[j].put("empPhoto", employee[j].getPhotoPath());
-					
-					emp[j].put("empEmail", contact[j].getEmail());
-					emp[j].put("empDeptName", department[j].getDeptName());
-					emp[j].put("empJobTitle", department[j].getjobTitle());
-					
-					employees.put(emp[j]);
-				}
-				
-				response.getWriter().print(employees);
-
-				rs1.close();
-				rs2.close();
-				rs3.close();
-				rs4.close();
-			}
-			
+			String requestedAction = request.getParameter("action");			
 			String EID = request.getParameter("EID");
-			if (requestedAction != null && requestedAction.equals("getEmployeeDataByID") && EID != null) {
+			String[] columnsName = request.getParameterValues("columnsName");
+			String[] newValues = request.getParameterValues("newValues");
+			
+			if (requestedAction != null) {
 				
-				response.setContentType("application/json");
-				response.setCharacterEncoding("UTF-8");
-
-				int eid = Integer.parseInt(EID);
-				
-				EmployeeDAO eDAO = new EmployeeDAO();
-				ContactDAO cDAO = new ContactDAO();
-				DepartmentDAO dDAO = new DepartmentDAO();
-				
-				ResultSet rs1 = eDAO.getEmployeeDataByEID(eid);
-				ResultSet rs2 = cDAO.getContactDataByEID(eid);
-				ResultSet rs3 = dDAO.getDepartmentDataByEID(eid);
-				
-				JSONObject empData = new JSONObject();
-				
-				while (rs1.next() && rs2.next() && rs3.next()) {
-					empData.put("empID",rs1.getString("employee_id"));
-					empData.put("empFirstName",rs1.getString("first_name"));
-					empData.put("empLastName",rs1.getString("last_name"));
-					empData.put("empGender",rs1.getString("gender"));
-					empData.put("empDOB",Date.valueOf(rs1.getString("dob")));
-					empData.put("empSalary",rs1.getDouble("salary"));
-					empData.put("empPhoto",rs1.getString("photo_path"));
-
-					empData.put("empEmail",rs2.getString("email"));
-					empData.put("empAddress",rs2.getString("address"));
-					empData.put("empCity",rs2.getString("city"));
-					empData.put("empState",rs2.getString("state"));
-					empData.put("empCountry",rs2.getString("country"));
-					empData.put("empPincode",rs2.getInt("pincode"));
-					empData.put("empPhone",rs2.getLong("phone"));
-
-					empData.put("empDeptName",rs3.getString("dept_name"));
-					empData.put("empJobTitle",rs3.getString("job_title"));
-					empData.put("empType",rs3.getString("employee_type"));
-					empData.put("empJoinDate",Date.valueOf(rs3.getString("join_date")));
-					empData.put("empStatus",rs3.getString("employee_status"));
+				switch (requestedAction) {
+					case "viewAllEmployees": {
+						response.setContentType("application/json");
+						response.setCharacterEncoding("UTF-8");
+	
+						EmployeeDAO eDAO = new EmployeeDAO();
+						ContactDAO cDAO = new ContactDAO();
+						DepartmentDAO dDAO = new DepartmentDAO();
+						
+						ResultSet rs1 = eDAO.getAllEmployeeDataForCards();
+						ResultSet rs4 = eDAO.getTotalCountOFEID();
+						ResultSet rs2 = cDAO.getAllContactDataForCards();
+						ResultSet rs3 = dDAO.getAllDepartmentDataForCards();
+						
+						int size = 0, i = 0;
+						
+						while (rs4.next()) {
+							size = rs4.getInt("count");
+						}
+						
+						Employee[] employee = new Employee[size];
+						Contact[] contact = new Contact[size];
+						Department[] department = new Department[size];
+						
+						JSONArray employees = new JSONArray();
+						JSONObject[] emp = new JSONObject[size];
+						
+						// employee_id, first_name, last_name, photo_path, email, dept_name, job_title
+						
+						while (rs1.next() && rs2.next() && rs3.next()){	
+							employee[i] = new Employee();
+							contact[i] = new Contact();
+							department[i] = new Department();
+							
+							employee[i].setEID(rs1.getInt("e_id"));
+							employee[i].setEmpID(rs1.getString("employee_id"));
+							employee[i].setFirstName(rs1.getString("first_name"));
+							employee[i].setLastName(rs1.getString("last_name"));
+							employee[i].setPhotoPath(rs1.getString("photo_path"));;
+							
+							contact[i].setEmail(rs2.getString("email"));
+							
+							department[i].setDeptName(rs3.getString("dept_name"));
+							department[i].setjobTitle(rs3.getString("job_title"));
+							
+							i++;
+						}
+						
+						for (int j = 0; j < size; j++) {
+							emp[j] = new JSONObject();
+							
+							emp[j].put("eid", employee[j].getEID());
+							emp[j].put("empID", employee[j].getEmpID());
+							emp[j].put("empFirstName", employee[j].getFirstName());
+							emp[j].put("empLastName", employee[j].getLastName());
+							emp[j].put("empPhoto", employee[j].getPhotoPath());
+							
+							emp[j].put("empEmail", contact[j].getEmail());
+							emp[j].put("empDeptName", department[j].getDeptName());
+							emp[j].put("empJobTitle", department[j].getjobTitle());
+							
+							employees.put(emp[j]);
+						}
+						
+						response.getWriter().print(employees);
+	
+						rs1.close();
+						rs2.close();
+						rs3.close();
+						rs4.close();
+						break;
+					}
+					
+					case "getEmployeeDataByID": {
+						if (EID != null) {
+							response.setContentType("application/json");
+							response.setCharacterEncoding("UTF-8");
+	
+							int eid = Integer.parseInt(EID);
+							
+							EmployeeDAO eDAO = new EmployeeDAO();
+							ContactDAO cDAO = new ContactDAO();
+							DepartmentDAO dDAO = new DepartmentDAO();
+							
+							ResultSet rs1 = eDAO.getEmployeeDataByEID(eid);
+							ResultSet rs2 = cDAO.getContactDataByEID(eid);
+							ResultSet rs3 = dDAO.getDepartmentDataByEID(eid);
+							
+							JSONObject empData = new JSONObject();
+							while (rs1.next() && rs2.next() && rs3.next()) {
+								empData.put("empID",rs1.getString("employee_id"));
+								empData.put("empFirstName",rs1.getString("first_name"));
+								empData.put("empLastName",rs1.getString("last_name"));
+								empData.put("empGender",rs1.getString("gender"));
+								empData.put("empDOB",Date.valueOf(rs1.getString("dob")));
+								empData.put("empSalary",rs1.getDouble("salary"));
+								empData.put("empPhoto",rs1.getString("photo_path"));
+	
+								empData.put("empEmail",rs2.getString("email"));
+								empData.put("empAddress",rs2.getString("address"));
+								empData.put("empCity",rs2.getString("city"));
+								empData.put("empState",rs2.getString("state"));
+								empData.put("empCountry",rs2.getString("country"));
+								empData.put("empPincode",rs2.getInt("pincode"));
+								empData.put("empPhone",rs2.getLong("phone"));
+	
+								empData.put("empDeptName",rs3.getString("dept_name"));
+								empData.put("empJobTitle",rs3.getString("job_title"));
+								empData.put("empType",rs3.getString("employee_type"));
+								empData.put("empJoinDate",Date.valueOf(rs3.getString("join_date")));
+								empData.put("empStatus",rs3.getString("employee_status"));
+							}
+							
+							response.getWriter().print(empData);
+						}
+						break;
+					}
+					
+					case "upadateEmployeeDataByID": {
+						if (empID != null &&
+							columnsName != null &&
+							newValues != null) {
+							
+							response.setContentType("application/json");
+							response.setCharacterEncoding("UTF-8");
+							
+							Employee emp = new Employee();
+							emp.setEmpID(empID);
+							
+							if (photoPart != null && Arrays.asList(columnsName).contains("photo_path")) {
+								String fileName = photoPart.getSubmittedFileName();
+								String uploadPath = "C:\\Users\\hp\\eclipse-workspace\\EmployeeManagementSystem\\src\\main\\webapp\\upload";
+								File uploadDir = new File(uploadPath);
+								if (!uploadDir.exists()) {
+									uploadDir.mkdir();
+								}
+								photoPart.write(uploadPath + File.separator + fileName);
+								String photoPath = "./upload/" + fileName;
+								emp.setPhotoPath(photoPath);
+							}
+							
+							EmployeeDAO eDAO = new EmployeeDAO();
+							ContactDAO cDAO = new ContactDAO();
+							DepartmentDAO dDAO = new DepartmentDAO();
+							ResultSet rs = eDAO.getEmployeeID(emp);
+							
+							while (rs.next()) {
+								emp.setEID(rs.getInt("e_id"));
+							}
+							
+							int bool1 = eDAO.updateEmployeeDataByEID(emp, columnsName, newValues);
+							int bool2 = cDAO.updateContactDataByEID(emp, columnsName, newValues);
+							int bool3 = dDAO.updateDepartmentDataByEID(emp, columnsName, newValues);
+							
+							JSONObject result = new JSONObject();
+							
+							if (bool1 != 0) {
+								result.put("EmployeeDataUpdate", "ok");
+							} else {
+								result.put("EmployeeDataUpdate", "error");
+							}
+							if (bool2 != 0) {
+								result.put("ContactDataUpdate", "ok");
+							} else {
+								result.put("ContactDataUpdate", "error");
+							}
+							if (bool3 != 0) {
+								result.put("DepartmentDataUpdate", "ok");
+							} else {
+								result.put("DepartmentDataUpdate", "error");
+							}
+							
+							response.getWriter().print(result);
+						}
+						break;
+					}
+					
+					case "deleteEmployeeDataByID": {
+						if (empID != null) {
+							
+							response.setContentType("application/json");
+							response.setCharacterEncoding("UTF-8");
+							
+							Employee emp = new Employee();
+							emp.setEmpID(empID);
+							
+							EmployeeDAO eDAO = new EmployeeDAO();
+							ResultSet rs = eDAO.getEmployeeID(emp);
+							
+							while (rs.next()) {
+								emp.setEID(rs.getInt("e_id"));
+							}
+							
+							int bool1 = eDAO.deleteEmployeeDataByEID(emp);
+							JSONObject result = new JSONObject();
+							
+							if (bool1 != 0) {
+								result.put("EmployeeDataDelete", "ok");
+							} else {
+								result.put("EmployeeDataDelete", "error");
+							}
+							response.getWriter().print(result);
+						}
+						break;
+					}
+	
+					default:
+						System.out.println("other action requested!");
+						break;
 				}
-				
-				response.getWriter().print(empData);
 			}
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			JSONObject status = new JSONObject();
