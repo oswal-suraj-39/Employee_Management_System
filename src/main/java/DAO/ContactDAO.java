@@ -90,5 +90,77 @@ public class ContactDAO {
 			return null;
 		}
 	}
-
+	
+	public int updateContactDataByEID(Employee employee, String[] columnsName, String[] newValues) {
+		try {
+			int a = 1;
+			for (int i = 0; i < columnsName.length && i < newValues.length; i++) {
+				switch (columnsName[i]) {
+					case "email": {
+						String sql = "update contact set email = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "address": {
+						String sql = "update contact set address = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "city": {
+						String sql = "update contact set city = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "state": {
+						String sql = "update contact set state = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "country": {
+						String sql = "update contact set country = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "pincode": {
+						String sql = "update contact set pincode = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setInt(1, Integer.parseInt(newValues[i]));
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "phone": {
+						String sql = "update contact set phone = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setLong(1, Long.parseLong(newValues[i]));
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					default: {
+						continue;
+					}
+				}
+			}
+			return a;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }

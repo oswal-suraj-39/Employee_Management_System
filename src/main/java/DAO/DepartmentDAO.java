@@ -70,7 +70,7 @@ public class DepartmentDAO {
 		try {
 			String sql = """
 					select *
-					from Department
+					from department
 					where e_id = ?;
 					""";
 			
@@ -87,5 +87,61 @@ public class DepartmentDAO {
 			return null;
 		}
 	}
-
+	
+	public int updateDepartmentDataByEID(Employee employee, String[] columnsName, String[] newValues) {
+		try {
+			int a = 1;
+			for (int i = 0; i < columnsName.length && i < newValues.length; i++) {
+				switch (columnsName[i]) {
+					case "dept_name": {
+						String sql = "update department set dept_name = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "job_title": {
+						String sql = "update department set job_title = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "employee_type": {
+						String sql = "update department set employee_type = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "join_date": {
+						String sql = "update department set join_date = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setDate(1, Date.valueOf(newValues[i]));
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "employee_status": {
+						String sql = "update department set employee_status = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					default: {
+						continue;
+					}
+				}
+			}
+			return a;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }
