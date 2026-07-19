@@ -31,4 +31,34 @@ function sidePanelNav() {
     LineColors[0].classList.add("LineColorGreen");
 }
 
+function updateClock() {
+    const now = new Date();
+
+    const day = String(now.getDate()).padStart(2, "0");
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const year = now.getFullYear();
+
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    let hours = now.getHours();
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours === 0 ? 12 : hours;
+    hours = String(hours).padStart(2, "0");
+
+    document.getElementById("date").textContent = `${day} / ${month} / ${year}`;
+    document.getElementById("time").textContent = `${hours} : ${minutes} ${ampm}`;
+}
+
+function loadDashboard() {
+    try {
+        const dateElement = document.querySelector(".date");
+        const timeElement = document.querySelector(".time");
+        updateClock();
+        setInterval(updateClock, 60000);
+    } catch (error) {
+        console.error("Error loading dashboard:", error);
+
+    }
+}
+
 sidePanelNav();

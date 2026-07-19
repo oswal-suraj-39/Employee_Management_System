@@ -192,6 +192,6 @@ function loadViewEmployeeScript() {
         let cardContainer = mainContent3.querySelector(".cardContainer");
         fetchData(cardContainer, MessageScreen);
     } catch (error) {
-        console.log(error);
+        console.error("Error loading view employee script:", error);
     }
 }

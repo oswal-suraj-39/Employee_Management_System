@@ -77,24 +77,9 @@ body {
     grid-area: header;
     background-color: var(--color-2);
     display: flex;
-    justify-content: space-between;
     align-items: center;
     color: var(--text-color1);
     padding: 0.5rem 1rem;
-}
-
-.account {
-    width: 3rem;
-    height: 3rem;
-}
-
-.account:hover {
-    cursor: pointer;
-}
-
-.account:hover .headpart,
-.account:hover .bodypart {
-    fill: var(--text-color1);
 }
 
 .sidePanel {
@@ -204,6 +189,29 @@ body {
 
 .btn:hover .LineColor2 {
     fill: var(--text-color6);
+}
+
+.dashboardContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.header2 {
+    width: fit-content;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    align-self: flex-end;
+    gap: 0.5rem 0;
+    color: var(--text-color1);
+    padding: 0.5rem 1rem;
+    background-color: var(--color-2);
+    border-radius: 0.5rem;
 }
 
 @media screen and (max-width: 768px) {
