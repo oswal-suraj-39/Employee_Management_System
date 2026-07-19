@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import utility.DBConnection;
 import model.*;
 
+
 public class EmployeeDAO {
 	
 	protected Connection con = DBConnection.getConnection();
@@ -131,5 +132,83 @@ public class EmployeeDAO {
 			return null;
 		}
 	}
-
+	
+	public int updateEmployeeDataByEID(Employee employee, String[] columnsName, String[] newValues) {
+		try {
+			int a = 1;
+			for (int i = 0; i < columnsName.length && i < newValues.length; i++) {
+				switch (columnsName[i]) {
+					case "first_name": {
+						String sql = "update employees set first_name = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "last_name": {
+						String sql = "update employees set last_name = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						System.out.println(newValues[i]);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "gender": {
+						String sql = "update employees set gender = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, newValues[i]);
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "dob": {
+						String sql = "update employees set dob = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setDate(1, Date.valueOf(newValues[i]));
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "salary": {
+						String sql = "update employees set salary = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setDouble(1, Double.parseDouble(newValues[i]));
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					case "photo_path": {
+						String sql = "update employees set photo_path = ? where e_id = ?;";
+						PreparedStatement ps = this.con.prepareStatement(sql);
+						ps.setString(1, employee.getPhotoPath());
+						ps.setInt(2, employee.getEID());
+						a = ps.executeUpdate();
+						break;
+					}
+					default: {
+						continue;
+					}
+				}
+			}
+			return a;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+	
+	public int deleteEmployeeDataByEID(Employee employee) {
+		try {
+			String sql = "delete from employees where e_id = ?;";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ps.setInt(1, employee.getEID());
+			int a = ps.executeUpdate();
+			return a;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }
