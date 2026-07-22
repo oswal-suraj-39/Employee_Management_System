@@ -280,7 +280,7 @@ public class EmployeeServlet extends HttpServlet {
 						break;
 					}
 					
-					case "upadateEmployeeDataByID": {
+					case "updateEmployeeDataByID": {
 						if (empID != null &&
 							columnsName != null &&
 							newValues != null) {
