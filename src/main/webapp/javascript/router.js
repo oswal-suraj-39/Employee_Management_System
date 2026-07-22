@@ -60,9 +60,6 @@ async function loadPage(page) {
 		case "addEmployee":
 			loadAddEmployeeScript();
 			break;
-		case "settings":
-			loadSettingsScript();
-			break;
 		default:
 			break;
 	}
