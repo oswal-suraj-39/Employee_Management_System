@@ -1,222 +1,224 @@
-<body>
-    <form>
-        <div class="inputContainer" data-page="editModeOFF">
+<form>
+	<div class="inputContainer" data-page="editModeOFF">
+		<div class="sections">
+			<section>
+				<h2>Basic Information</h2>
+				<div class="inputGroup">
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="employee_id" required>
+						<div class="placeholder">Employee ID</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="first_name" required>
+						<div class="placeholder">First Name</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="last_name" required>
+						<div class="placeholder">Last Name</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField genderInput" readonly required name="gender">
+						<div class="placeholder">Gender</div>
+						<div class="genderSelection">
+							<ul>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Male</p>
+										<input type="radio" value="male" name="gender">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Female</p>
+										<input type="radio" value="female" name="gender">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Other</p>
+										<input type="radio" value="other" name="gender">
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="inputOutline">
+						<input type="date" class="inputField" name="dob" required>
+						<div class="placeholder">DOB</div>
+					</div>
+					<div class="inputOutline">
+						<input type="number" class="inputField" name="salary" min="0.00" required>
+						<div class="placeholder">Salary</div>
+					</div>
+				</div>
+			</section>
 
-            <div class="sections">
-                <section>
-                    <h2>Basic Information</h2>
-                    <div class="inputGroup">
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="employee_id" required>
-                            <div class="placeholder">Employee ID</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="first_name" required>
-                            <div class="placeholder">First Name</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="last_name" required>
-                            <div class="placeholder">Last Name</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField genderInput" readonly required name="gender">
-                            <div class="placeholder">Gender</div>
-                            <div class="genderSelection">
-                                <ul>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Male</p>
-                                            <input type="radio" value="male" name="gender">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Female</p>
-                                            <input type="radio" value="female" name="gender">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Other</p>
-                                            <input type="radio" value="other" name="gender">
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="date" class="inputField" name="dob" required>
-                            <div class="placeholder">DOB</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="number" class="inputField" name="salary" min="0.00" required>
-                            <div class="placeholder">Salary</div>
-                        </div>
-                    </div>
-                </section>
+			<section>
+				<h2>Contact Information</h2>
+				<div class="inputGroup">
+					<div class="inputOutline">
+						<input type="email" class="inputField" name="email" required>
+						<div class="placeholder">Email</div>
+					</div>
+					<div class="inputOutline">
+						<input type="number" class="inputField" name="phone" required>
+						<div class="placeholder">Phone Number</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="address" required>
+						<div class="placeholder">Address</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="city" required>
+						<div class="placeholder">City</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="state" required>
+						<div class="placeholder">State</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="country" required>
+						<div class="placeholder">Country</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="pincode" required>
+						<div class="placeholder">Pincode</div>
+					</div>
+				</div>
+			</section>
 
-                <section>
-                    <h2>Contact Information</h2>
-                    <div class="inputGroup">
-                        <div class="inputOutline">
-                            <input type="email" class="inputField" name="email" required>
-                            <div class="placeholder">Email</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="number" class="inputField" name="phone" required>
-                            <div class="placeholder">Phone Number</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="address" required>
-                            <div class="placeholder">Address</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="city" required>
-                            <div class="placeholder">City</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="state" required>
-                            <div class="placeholder">State</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="country" required>
-                            <div class="placeholder">Country</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="pincode" required>
-                            <div class="placeholder">Pincode</div>
-                        </div>
-                    </div>
-                </section>
+			<section>
+				<h2>Job / Work Information</h2>
+				<div class="inputGroup">
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="dept_name" required>
+						<div class="placeholder">Department</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField" name="job_title" required>
+						<div class="placeholder">Job title / Role</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField employeeTypeInput" readonly required name="employee_type">
+						<div class="placeholder">Employee Type</div>
+						<div class="employeeTypeSelection">
+							<ul>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Full Time</p>
+										<input type="radio" value="full time" name="emptype">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Part Time</p>
+										<input type="radio" value="part time" name="emptype">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Internship</p>
+										<input type="radio" value="intern" name="emptype">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Contract</p>
+										<input type="radio" value="contract" name="emptype">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Remote</p>
+										<input type="radio" value="remote" name="emptype">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Freelance</p>
+										<input type="radio" value="freelance" name="emptype">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Temporary</p>
+										<input type="radio" value="temporary" name="emptype">
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="inputOutline">
+						<input type="date" class="inputField" required name="join_date">
+						<div class="placeholder">Join Date</div>
+					</div>
+					<div class="inputOutline">
+						<input type="text" class="inputField employeeStatusInput" readonly required
+							name="employee_status">
+						<div class="placeholder">Employee Status</div>
+						<div class="employeeStatusSelection">
+							<ul>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Active</p>
+										<input type="radio" value="active" name="empStatus">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>On Leave</p>
+										<input type="radio" value="on leave" name="empStatus">
+									</label>
+								</li>
+								<li>
+									<label>
+										<div class="listIcon"></div>
+										<p>Resigned</p>
+										<input type="radio" value="resigned" name="empStatus">
+									</label>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
 
-                <section>
-                    <h2>Job / Work Information</h2>
-                    <div class="inputGroup">
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="dept_name" required>
-                            <div class="placeholder">Department</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField" name="job_title" required>
-                            <div class="placeholder">Job title / Role</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField employeeTypeInput" readonly required name="employee_type">
-                            <div class="placeholder">Employee Type</div>
-                            <div class="employeeTypeSelection">
-                                <ul>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Full Time</p>
-                                            <input type="radio" value="full time" name="emptype">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Part Time</p>
-                                            <input type="radio" value="part time" name="emptype">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Internship</p>
-                                            <input type="radio" value="intern" name="emptype">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Contract</p>
-                                            <input type="radio" value="contract" name="emptype">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Remote</p>
-                                            <input type="radio" value="remote" name="emptype">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Freelance</p>
-                                            <input type="radio" value="freelance" name="emptype">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Temporary</p>
-                                            <input type="radio" value="temporary" name="emptype">
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="date" class="inputField" required name="join_date">
-                            <div class="placeholder">Join Date</div>
-                        </div>
-                        <div class="inputOutline">
-                            <input type="text" class="inputField employeeStatusInput" readonly required name="employee_status">
-                            <div class="placeholder">Employee Status</div>
-                            <div class="employeeStatusSelection">
-                                <ul>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Active</p>
-                                            <input type="radio" value="active" name="empStatus">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>On Leave</p>
-                                            <input type="radio" value="on leave" name="empStatus">
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <label>
-                                            <div class="listIcon"></div>
-                                            <p>Resigned</p>
-                                            <input type="radio" value="resigned" name="empStatus">
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+		</div>
 
-            </div>
+		<label class="empImgFrame">
+			<input type="file" class="imageUpload" name="photo_path" accept="image/*" hidden readonly>
+			<img class="empImg">
+			<div class="uploadSvg">
+				<svg width="150px" height="150px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<g stroke="var(--text-color3)" stroke-width="1">
+						<path
+							d="M13 4H8.8C7.11984 4 6.27976 4 5.63803 4.32698C5.07354 4.6146 4.6146 5.07354 4.32698 5.63803C4 6.27976 4 7.11984 4 8.8V15.2C4 16.8802 4 17.7202 4.32698 18.362C4.6146 18.9265 5.07354 19.3854 5.63803 19.673C6.27976 20 7.11984 20 8.8 20H15.2C16.8802 20 17.7202 20 18.362 19.673C18.9265 19.3854 19.3854 18.9265 19.673 18.362C20 17.7202 20 16.8802 20 15.2V11"
+							stroke-linecap="round" stroke-linejoin="round" />
+						<path
+							d="M4 16L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L13 15M13 15L15.7929 12.2071C16.1834 11.8166 16.8166 11.8166 17.2071 12.2071L20 15M13 15L15.25 17.25"
+							stroke-linecap="round" stroke-linejoin="round" />
+						<path d="M18 8V3M18 3L16 5M18 3L20 5" stroke-linecap="round" stroke-linejoin="round" />
+					</g>
+				</svg>
+			</div>
+		</label>
 
-            <label class="empImgFrame">
-                <input type="file" class="imageUpload" name="photo_path" accept="image/*" hidden readonly>
-                <img class="empImg">
-                <div class="uploadSvg">
-                    <svg width="150px" height="150px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g stroke="var(--text-color3)" stroke-width="1">
-                            <path d="M13 4H8.8C7.11984 4 6.27976 4 5.63803 4.32698C5.07354 4.6146 4.6146 5.07354 4.32698 5.63803C4 6.27976 4 7.11984 4 8.8V15.2C4 16.8802 4 17.7202 4.32698 18.362C4.6146 18.9265 5.07354 19.3854 5.63803 19.673C6.27976 20 7.11984 20 8.8 20H15.2C16.8802 20 17.7202 20 18.362 19.673C18.9265 19.3854 19.3854 18.9265 19.673 18.362C20 17.7202 20 16.8802 20 15.2V11" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M4 16L8.29289 11.7071C8.68342 11.3166 9.31658 11.3166 9.70711 11.7071L13 15M13 15L15.7929 12.2071C16.1834 11.8166 16.8166 11.8166 17.2071 12.2071L20 15M13 15L15.25 17.25" stroke-linecap="round" stroke-linejoin="round" />
-                            <path d="M18 8V3M18 3L16 5M18 3L20 5" stroke-linecap="round" stroke-linejoin="round" />
-                        </g>
-                    </svg>
-                </div>
-            </label>
-
-        </div>
-        <section class="btnSection">
-            <button type="button" class="updateBtn" hidden>Update</button>
-            <button type="button" class="deleteBtn" hidden>Delete</button>
-            <button type="button" class="saveBtn" hidden>Save</button>
-        </section>
-    </form>
-</body>
+	</div>
+	<section class="btnSection">
+		<button type="button" class="deleteBtn" hidden>Delete</button>
+		<button type="button" class="updateBtn" hidden>Update</button>
+		<button type="button" class="saveBtn" hidden>Save</button>
+	</section>
+</form>

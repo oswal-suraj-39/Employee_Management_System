@@ -385,6 +385,7 @@ function loadAddEmployeeScript() {
                         genderSelection.style.top = "2.5rem";
                         genderSelection.style.opacity = "1";
                         genderSelection.style.zIndex = "3";
+						genderSelection.style.height = "auto";
                     } else {
                         genderSelection.removeAttribute("style");
                     }
@@ -396,6 +397,7 @@ function loadAddEmployeeScript() {
                         employeeTypeSelection.style.top = "2.5rem";
                         employeeTypeSelection.style.opacity = "1";
                         employeeTypeSelection.style.zIndex = "3";
+						employeeTypeSelection.style.height = "auto";
                     } else {
                         employeeTypeSelection.removeAttribute("style");
                     }
@@ -407,6 +409,7 @@ function loadAddEmployeeScript() {
                         employeeStatusSelection.style.top = "2.5rem";
                         employeeStatusSelection.style.opacity = "1";
                         employeeStatusSelection.style.zIndex = "3";
+						employeeStatusSelection.style.height = "auto";
                     } else {
                         employeeStatusSelection.removeAttribute("style");
                     }
