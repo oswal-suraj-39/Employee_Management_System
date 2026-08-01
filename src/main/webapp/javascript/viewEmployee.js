@@ -1,3 +1,36 @@
+function searchEmployeeData(mainContent3, cardContainer) {
+
+    const header3 = mainContent3.querySelector(".header3");
+    const searchInput = header3.querySelector(".searchInput");
+
+    searchInput.addEventListener("input", function() {
+    
+        let name = searchInput.value.toLowerCase();
+        const cards = cardContainer.querySelectorAll(".card");
+    
+        cards.forEach((card) => {
+    
+            const Data = card.querySelectorAll(".empData");
+            let array = [];
+    
+            Data.forEach(d => {
+                array.push(d.textContent.toLowerCase() !== null ? d.textContent.toLowerCase() : null);
+            });
+    
+            if (array[0].includes(name) ||
+                array[1].includes(name) ||
+                array[2].includes(name) ||
+                array[3].includes(name) ||
+                array[4].includes(name)) {
+                card.style.display = "flex";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    });
+
+}
+
 async function fetchDataByEID(btn) {
 
     const formData = new FormData();
@@ -12,7 +45,7 @@ async function fetchDataByEID(btn) {
     const EmpDataForEdit = await response.json();
 
     const mainContent3 = document.querySelector(".mainContent");
-	const inputContainer = mainContent3.querySelector(".inputContainer");
+    const inputContainer = mainContent3.querySelector(".inputContainer");
     const btns = mainContent3.querySelectorAll(".btnSection button");
     const [empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus] = mainContent3.querySelectorAll(".inputField");
     const placeholders = mainContent3.querySelectorAll(".placeholder");
@@ -20,8 +53,8 @@ async function fetchDataByEID(btn) {
     const [empImg, uploadSvg] = empImgFrame.querySelectorAll(".empImg, .uploadSvg");
     const options = mainContent3.querySelectorAll('input[name="gender"], input[name="emptype"], input[name="empStatus"]');
 
-	inputContainer.dataset.page = "editModeON";
-	
+    inputContainer.dataset.page = "editModeON";
+
     empID.value = EmpDataForEdit.empID;
     empFirstName.value = EmpDataForEdit.empFirstName;
     empLastName.value = EmpDataForEdit.empLastName;
@@ -80,7 +113,7 @@ async function fetchDataByEID(btn) {
     });
 }
 
-async function fetchData(cardContainer, MessageScreen) {
+async function fetchData(mainContent3, cardContainer, MessageScreen) {
     const formData = new FormData();
     formData.append("action", "viewAllEmployees");
 
@@ -110,26 +143,21 @@ async function fetchData(cardContainer, MessageScreen) {
         const card = document.createElement("div");
         card.classList.add("card");
         card.innerHTML = `
-            <form>
+            <div class="cardDetails">
                 <div class="shortInfo">
-                    <label>Id<br>
-                        <input type="text" name="empID" value="${emp.empID}" readonly>
-                    </label>
-                    <label>Name<br>
-                        <input type="text" name="ename" value="${fullName}" readonly>
-                    </label>
-                    <label>Email<br>
-                        <input type="email" name="email" value="${emp.empEmail}" readonly>
-                    </label>
-                    <label>Department<br>
-                        <input type="text" name="department" value="${emp.empDeptName}" readonly>
-                    </label>
-                    <label>Job Role<br>
-                        <input type="text" name="job_role" value="${emp.empJobTitle}" readonly>
-                    </label>
+                    <p class="title">Id</p>
+                    <p class="empData">${emp.empID}</p>
+					<p class="title">Name<p>
+					<p class="empData">${fullName}</p>   
+					<p class="title">Email</p>
+					<p class="empData">${emp.empEmail}</p>                   
+					<p class="title">Department</p>
+					<p class="empData">${emp.empDeptName}</p>
+                    <p class="title">Job Role</p>
+                    <p class="empData">${emp.empJobTitle}</p>
                 </div>
                 <div class="viewBtn" data-page="add-employees" id=${emp.eid}>View</div>
-            </form>
+            </div>
             <div class="photoFrame">
                 <img src="${emp.empPhoto}">
             </div>`;
@@ -164,14 +192,15 @@ async function fetchData(cardContainer, MessageScreen) {
 
         cards.forEach((card) => {
             const btn = card.querySelector(".viewBtn");
-			btn.onclick = async () => {
-			    await loadPage(btn.getAttribute("data-page"));
-			    await fetchDataByEID(btn);
-			};
+            btn.onclick = async () => {
+                await loadPage(btn.getAttribute("data-page"));
+                await fetchDataByEID(btn);
+            };
         });
 
+        searchEmployeeData(mainContent3, cardContainer);
+
     } else {
-        console.log(cardContainer);
         const cards = cardContainer.querySelectorAll(".card");
         cards.forEach((card) => {
             card.style.backgroundColor = `var(--color-7)`;
@@ -190,7 +219,7 @@ function loadViewEmployeeScript() {
         const mainContent3 = document.querySelector(".mainContent");
         const MessageScreen = mainContent3.querySelector(".MessageScreen");
         let cardContainer = mainContent3.querySelector(".cardContainer");
-        fetchData(cardContainer, MessageScreen);
+        fetchData(mainContent3, cardContainer, MessageScreen);
     } catch (error) {
         console.error("Error loading view employee script:", error);
     }
