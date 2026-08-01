@@ -4,6 +4,31 @@ const tabs = sidePanel.querySelectorAll(".btn");
 const LineColors = sidePanel.querySelectorAll(".LineColor");
 const LineColors2 = sidePanel.querySelectorAll(".LineColor2");
 
+async function counterPanelDataLoader(mainContent5) {
+	
+	const counterPanel = mainContent5.querySelector(".counterPanel");
+	const cNumber = counterPanel.querySelectorAll(".cNumber");
+	
+	const formData = new FormData();
+	formData.append("action", "counterPanelData");
+	
+	const response = await fetch("EmployeeServlet", {
+		method: "POST",
+	    body: formData
+	});
+	
+	const data = await response.json();
+	
+	cNumber[0].textContent = data.TotalCountOfEID != -1 ? data.TotalCountOfEID : 0;
+	
+	cNumber[1].textContent = data.TotalCountOfActiveEmployee != -1 ? data.TotalCountOfActiveEmployee : 0;
+	
+	cNumber[2].textContent = data.TotalCountOfInActiveEmployee != -1 ? data.TotalCountOfInActiveEmployee : 0;
+	
+	cNumber[3].textContent = data.TotalCountOfDepartment != -1 ? data.TotalCountOfDepartment : 0;
+	
+}
+
 function svgLoaderForDashboard(mainContent5) {
 
     const counterIcon = mainContent5.querySelectorAll(".counterIcon");
@@ -30,6 +55,12 @@ function svgLoaderForDashboard(mainContent5) {
             <path d="M16 15.2V16.8875L16.9 17.9M9 11H4M20 9V7C20 5.89543 19.1046 5 18 5H6C4.89543 5 4 5.89543 4 7V19C4 20.1046 4.89543 21 6 21H9M15 3V7M9 3V7M20.5 17C20.5 19.4853 18.4853 21.5 16 21.5C13.5147 21.5 11.5 19.4853 11.5 17C11.5 14.5147 13.5147 12.5 16 12.5C18.4853 12.5 20.5 14.5147 20.5 17Z" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     `;
+	
+	counterIcon[3].innerHTML = `
+		<svg width="58px" height="58px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="LineColor">
+			<path d="M6 7H7M6 10H7M11 10H12M11 13H12M6 13H7M11 7H12M7 21V18C7 16.8954 7.89543 16 9 16C10.1046 16 11 16.8954 11 18V21H7ZM7 21H3V4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H13.4C13.9601 3 14.2401 3 14.454 3.10899C14.6422 3.20487 14.7951 3.35785 14.891 3.54601C15 3.75992 15 4.03995 15 4.6V9M19.7 13.5C19.7 14.3284 19.0284 15 18.2 15C17.3716 15 16.7 14.3284 16.7 13.5C16.7 12.6716 17.3716 12 18.2 12C19.0284 12 19.7 12.6716 19.7 13.5ZM21.5 21V20.5C21.5 19.1193 20.3807 18 19 18H17.5C16.1193 18 15 19.1193 15 20.5V21H21.5Z" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+		</svg>
+	`;
 }
 
 function sidePanelNav() {
@@ -60,7 +91,12 @@ function sidePanelNav() {
     LineColors[0].classList.add("LineColorGreen");
 }
 
-function updateClock() {
+function updateClock(mainContent5) {
+	if (!mainContent5) return;
+	const date = mainContent5.querySelector("#date");
+	const time = mainContent5.querySelector("#time");
+	if (!date || !time) return;
+	
     const now = new Date();
 
     const day = String(now.getDate()).padStart(2, "0");
@@ -74,18 +110,17 @@ function updateClock() {
     hours = hours === 0 ? 12 : hours;
     hours = String(hours).padStart(2, "0");
 
-    document.getElementById("date").textContent = `${day} / ${month} / ${year}`;
-    document.getElementById("time").textContent = `${hours} : ${minutes} ${ampm}`;
+    date.textContent = `${day} / ${month} / ${year}`;
+    time.textContent = `${hours} : ${minutes} ${ampm}`;
 }
 
-function loadDashboard() {
+async function loadDashboard() {
     try {
         const mainContent5 = document.querySelector(".mainContent");
-        const dateElement = mainContent5.querySelector(".date");
-        const timeElement = mainContent5.querySelector(".time");
-        updateClock();
+        updateClock(mainContent5);
         setInterval(updateClock, 60000);
         svgLoaderForDashboard(mainContent5);
+		await counterPanelDataLoader(mainContent5);
     } catch (error) {
         console.error("Error loading dashboard:", error);
 
