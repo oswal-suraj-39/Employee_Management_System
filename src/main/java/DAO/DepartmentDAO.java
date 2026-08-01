@@ -144,4 +144,53 @@ public class DepartmentDAO {
 			return 0;
 		}
 	}
+	
+	public long getTotalCountOfActiveEmployee() {
+		try {
+			long cnt = 0;
+			String sql = "select count(employee_status) from department where employee_status = 'active';";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				cnt = rs.getLong("count");
+			}
+			return cnt;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public long getTotalCountOfInActiveEmployee() {
+		try {
+			long cnt = 0;
+			String sql = "select count(employee_status) from department where employee_status = 'on leave';";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				cnt = rs.getLong("count");
+			}
+			return cnt;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public long getTotalCountOfDepartment() {
+		try {
+			long cnt = 0;
+			String sql = "select count(distinct dept_name) from department;";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				cnt = rs.getLong("count");
+			}
+			return cnt;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
 }

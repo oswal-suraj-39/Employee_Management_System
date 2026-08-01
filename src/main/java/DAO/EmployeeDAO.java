@@ -211,4 +211,20 @@ public class EmployeeDAO {
 			return 0;
 		}
 	}
+	
+	public long getTotalCountOfEID() {
+		try {
+			long cnt = 0;
+			String sql = "select count(e_id) from employees";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				cnt = rs.getLong("count");
+			}
+			return cnt;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return -1;
+		}
+	}
 }

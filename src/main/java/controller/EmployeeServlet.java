@@ -367,6 +367,32 @@ public class EmployeeServlet extends HttpServlet {
 						}
 						break;
 					}
+					
+					case "counterPanelData": {
+						
+						response.setContentType("application/json");
+						response.setCharacterEncoding("UTF-8");
+							
+						EmployeeDAO eDAO = new EmployeeDAO();
+						ContactDAO cDAO = new ContactDAO();
+						DepartmentDAO dDAO = new DepartmentDAO();
+						
+						long cnt1 = eDAO.getTotalCountOfEID();
+						long cnt2 = dDAO.getTotalCountOfActiveEmployee();
+						long cnt3 = dDAO.getTotalCountOfInActiveEmployee();
+						long cnt4 = dDAO.getTotalCountOfDepartment();
+						
+						JSONObject result = new JSONObject();
+							
+						result.put("TotalCountOfEID", cnt1);
+						result.put("TotalCountOfActiveEmployee", cnt2);
+						result.put("TotalCountOfInActiveEmployee", cnt3);
+						result.put("TotalCountOfDepartment", cnt4);
+						
+						response.getWriter().print(result);
+						
+						break;
+					}
 	
 					default:
 						System.out.println("other action requested!");
