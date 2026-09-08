@@ -26,7 +26,7 @@
     width: 16rem;
     height: 2rem;
     background-color: var(--color-2);
-    padding: 0 0.5rem 0 2.5rem;
+    padding: 0 2.3rem 0 2.3rem;
     border: 2px solid transparent;
     border-radius: 0.5rem;
     caret-color: var(--text-color7);
@@ -49,6 +49,23 @@
     left: 3%;
     width: 24px;
     height: 24px;
+}
+
+.filterBtn {
+    display: flex;
+    position: absolute;
+    top: 12%;
+    right: 3%;
+    width: 24px;
+    height: 24px;
+}
+
+.filterIcon {
+    fill: none;
+}
+
+.filterIcon:hover {
+    fill: var(--text-color1);
 }
 
 .cardContainer {
@@ -134,6 +151,10 @@ input[type="number"]::-webkit-inner-spin-button {
         padding: 0 1rem;
     }
 
+    .searchEmp input {
+        width: 14rem;
+    }
+
 	.cardContainer {
 		gap: 0rem;
 	}
@@ -145,7 +166,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @media screen and (max-width: 375px) {
     .searchEmp input {
-        width: 13.5rem;
+        width: 12rem;
     }
 	
 	.card {
@@ -155,7 +176,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @media screen and (max-width: 320px) {
     .searchEmp input {
-        width: 10.5rem;
+        width: 9rem;
     }
 
 	.card {

@@ -310,26 +310,24 @@ body {
 	}
 }
 
-/* @media screen and (max-width: 597px) {
-	
-} */
+@media screen and (max-width: 597px) {}
 
 @media screen and (max-width: 425px) {
 	.sidePanel p {
 		display: none;
 	}
-	
-	.counterBg {  
-    		width: 6rem;
+
+	.counterBg {
+		width: 6rem;
 	}
-	
+
 	.counterIcon {
-    		width: 2.5rem;
-    		height: 2.5rem;
+		width: 2.5rem;
+		height: 2.5rem;
 	}
-	
+
 	.countInfo {
-    		min-width: 3.5rem;
+		min-width: 3.5rem;
 	}
 }
 
@@ -337,43 +335,43 @@ body {
 	.sidePanel p {
 		display: none;
 	}
-	
-	.counterBg {  
-    		width: 5rem;
-    		flex-direction: column;
+
+	.counterBg {
+		width: 5rem;
+		flex-direction: column;
 	}
-	
+
 	.counterIcon {
-    		width: 2rem;
-    		height: 2rem;
+		width: 2rem;
+		height: 2rem;
 	}
-	
+
 	.countInfo {
-    		min-width: 6.5rem;
+		min-width: 6.5rem;
 	}
 }
 
 @media screen and (max-width: 320px) {
-	.counterBg {  
-    		width: 100%;
-    		flex-direction: row;
+	.counterBg {
+		width: 100%;
+		flex-direction: row;
 	}
-	
+
 	.counterIcon {
-    		width: 2.5rem;
-    		height: 2.5rem;
+		width: 2.5rem;
+		height: 2.5rem;
 	}
-	
+
 	.countInfo {
-    		min-width: 6.5rem;
-    		min-height: 3rem;
+		min-width: 6.5rem;
+		min-height: 3rem;
 	}
-	
+
 	.cTitle {
-    		font-size: 0.7rem;
+		font-size: 0.7rem;
 	}
+
 	.cNumber {
-    		font-size: 1.5rem;
+		font-size: 1.5rem;
 	}
-}
 }
