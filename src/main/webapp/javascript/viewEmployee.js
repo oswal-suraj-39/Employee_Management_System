@@ -1,8 +1,87 @@
+function fetchFilterOptions(mainContent3, cardContainer, MessageScreen) {
+	
+	const filterBtn = mainContent3.querySelector(".filterBtn");
+	const filterCateBtns = filterBtn.querySelectorAll(".filterCategoriesBtn"); 
+	const filterOptions = filterBtn.querySelector(".filterOptions");
+	
+	filterCateBtns.forEach((btn) => {
+		btn.addEventListener("click", async () => {
+			const byCategories = btn.dataset.page;
+			
+			const formData = new FormData();
+			formData.append("action", "fetchFilterOptions");
+			formData.append("Category", byCategories);
+			
+			const response = await fetch("EmployeeServlet", {
+				method: "POST",
+			    	body: formData
+			});
+
+			const data = await response.json();
+			
+			if (data.status === "error") {
+		        MessageScreen.style.display = "flex";
+				MessageScreen.style.backgroundColor = "rgba(219 22 22 / 50%)";
+			    MessageScreen.style.color = "rgb(76 7 7)";
+			    MessageScreen.textContent = "Error!";
+				setTimeout(() => {
+		        		MessageScreen.removeAttribute("style");
+					MessageScreen.textContent = "";
+		   		}, 2000);
+				return;
+			}
+			
+			if (data.deptNameList !== undefined) {
+				
+				filterOptions.innerHTML = "";
+				data.deptNameList.forEach((name) => {
+					
+					filterOptions.innerHTML += `
+					<label>
+						<p>${name}</p>
+						<input type="radio" value="${name}" name="deptNameFilter">
+					</label>
+					`;
+				});	
+			}
+			
+			if (data.jobTitleList !== undefined) {
+				
+				filterOptions.innerHTML = "";
+				data.jobTitleList.forEach((name) => {
+					
+					filterOptions.innerHTML += `
+					<label>
+						<p>${name}</p>
+						<input type="radio" value="${name}" name="jobTitleFilter">
+					</label>
+					`;
+				});	
+			}
+			
+		});
+	});
+	
+}
+
 function viewEmpIconLoader(mainContent3) {
 
     const searchIcon = mainContent3.querySelector(".searchIcon");
 
     const filterBtn = mainContent3.querySelector(".filterBtn");
+    const filterIcons = filterBtn.querySelectorAll(".filterCateIcon"); 
+
+    filterIcons[0].innerHTML = `
+        <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 7H7M6 10H7M11 10H12M11 13H12M6 13H7M11 7H12M7 21V18C7 16.8954 7.89543 16 9 16C10.1046 16 11 16.8954 11 18V21H7ZM7 21H3V4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H13.4C13.9601 3 14.2401 3 14.454 3.10899C14.6422 3.20487 14.7951 3.35785 14.891 3.54601C15 3.75992 15 4.03995 15 4.6V9M19.7 13.5C19.7 14.3284 19.0284 15 18.2 15C17.3716 15 16.7 14.3284 16.7 13.5C16.7 12.6716 17.3716 12 18.2 12C19.0284 12 19.7 12.6716 19.7 13.5ZM21.5 21V20.5C21.5 19.1193 20.3807 18 19 18H17.5C16.1193 18 15 19.1193 15 20.5V21H21.5Z" stroke="var(--text-color3)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" class="linehoverWhite2"/>
+        </svg>
+    `;
+
+    filterIcons[1].innerHTML = `
+        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M3 12H21M7 12V14M17 12V14M8 7H7.8C6.11984 7 5.27976 7 4.63803 7.32698C4.07354 7.6146 3.6146 8.07354 3.32698 8.63803C3 9.27976 3 10.1198 3 11.8V16.2C3 17.8802 3 18.7202 3.32698 19.362C3.6146 19.9265 4.07354 20.3854 4.63803 20.673C5.27976 21 6.11984 21 7.8 21H16.2C17.8802 21 18.7202 21 19.362 20.673C19.9265 20.3854 20.3854 19.9265 20.673 19.362C21 18.7202 21 17.8802 21 16.2V11.8C21 10.1198 21 9.27976 20.673 8.63803C20.3854 8.07354 19.9265 7.6146 19.362 7.32698C18.7202 7 17.8802 7 16.2 7H16M8 7V6C8 5.06812 8 4.60218 8.15224 4.23463C8.35523 3.74458 8.74458 3.35523 9.23463 3.15224C9.60218 3 10.0681 3 11 3H13C13.9319 3 14.3978 3 14.7654 3.15224C15.2554 3.35523 15.6448 3.74458 15.8478 4.23463C16 4.60218 16 5.06812 16 6V7M8 7H16" stroke="var(--text-color3)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="linehoverWhite2" />
+        </svg>
+    `;
 
     searchIcon.innerHTML = `
         <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -10,11 +89,12 @@ function viewEmpIconLoader(mainContent3) {
         </svg>
     `;
 
-    filterBtn.innerHTML = `
+    filterBtn.innerHTML += `
         <svg width="28px" height="28px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="filterIcon">
             <path d="M3 4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L14.4686 13.5314C14.2957 13.7043 14.2092 13.7908 14.1474 13.8917C14.0925 13.9812 14.0521 14.0787 14.0276 14.1808C14 14.2959 14 14.4182 14 14.6627V17L10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6Z" stroke="var(--text-color1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     `;
+ 
 }
 
 function searchEmployeeData(mainContent3, cardContainer) {
@@ -240,6 +320,7 @@ function loadViewEmployeeScript() {
         let cardContainer = mainContent3.querySelector(".cardContainer");
         viewEmpIconLoader(mainContent3);
         fetchData(mainContent3, cardContainer, MessageScreen);
+		fetchFilterOptions(mainContent3, cardContainer, MessageScreen);
     } catch (error) {
         console.error("Error loading view employee script:", error);
     }

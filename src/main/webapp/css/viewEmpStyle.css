@@ -22,7 +22,7 @@
     border-radius: 1rem;
 }
 
-.searchEmp input {
+.searchEmp input[type="text" i] {
     width: 16rem;
     height: 2rem;
     background-color: var(--color-2);
@@ -35,11 +35,11 @@
     box-shadow: 0 1px 3px 0px rgba(0, 0, 0 , 0.5);
 }
 
-.searchEmp input:focus {
+.searchEmp input[type="text" i]:focus {
     border: 2px solid var(--text-color7);
 }
 
-.searchEmp input::-webkit-input-placeholder {
+.searchEmp input[type="text" i]::-webkit-input-placeholder {
     color:  var(--text-color8);
 }
 
@@ -68,6 +68,36 @@
     fill: var(--text-color1);
 }
 
+.filterCategoriesBtn,
+.filterOptions label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.3rem 0.7rem;
+    background: transparent;
+    border: none;
+}
+
+.filterCategories {
+    display: flex;
+    flex-direction: column;
+}
+
+.filterCateIcon {
+    min-width: 24px;
+}
+
+.filterCategoriesBtn p {
+    margin: 0;
+    width: 100%;
+    height: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: var(--text-color3);
+}
+
 .cardContainer {
     display: flex;
     gap: 3rem;
@@ -81,6 +111,8 @@
     display: flex;
     border-radius: 1rem;
     box-shadow: -1px 0px 3px 0px rgba(0, 0, 0, 0.3);
+    width: min-content;
+    height: min-content;
 }
 
 .card .viewBtn, 
@@ -155,31 +187,31 @@ input[type="number"]::-webkit-inner-spin-button {
         width: 14rem;
     }
 
-	.cardContainer {
+	/* .cardContainer {
 		gap: 0rem;
 	}
 
 	.card {
 		transform: scale(0.8);
-	}
+	} */
 }
 
 @media screen and (max-width: 375px) {
-    .searchEmp input {
+    .searchEmp input[type="text" i] {
         width: 12rem;
     }
 	
-	.card {
+	/* .card {
 		transform: scale(0.7);
-	}
+	} */
 }
 
 @media screen and (max-width: 320px) {
-    .searchEmp input {
+    .searchEmp input[type="text" i] {
         width: 9rem;
     }
 
-	.card {
+	/* .card {
 		transform: scale(0.6);
-	}
+	} */
 }

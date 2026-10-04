@@ -114,7 +114,8 @@ input[type="date"]::-webkit-input-placeholder {
 
 .genderSelection label,
 .employeeTypeSelection label,
-.employeeStatusSelection label {
+.employeeStatusSelection label,
+.filterScreen {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -125,9 +126,20 @@ input[type="date"]::-webkit-input-placeholder {
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.3);
 }
 
+.filterScreen {
+	align-items: flex-start;
+    position: absolute;
+    top: 2rem;
+    right: 0;
+    padding: 0;
+    display: none;
+}
+
 .genderSelection label:hover,
 .employeeTypeSelection label:hover,
-.employeeStatusSelection label:hover {
+.employeeStatusSelection label:hover,
+.filterCategoriesBtn:hover,
+.filterCategoriesBtn:hover p {
     background-color: var(--color-8);
     color: var(--text-color5);
 }
@@ -140,7 +152,8 @@ input[type="date"]::-webkit-input-placeholder {
 
 .genderSelection label:hover .linehoverWhite2,
 .employeeTypeSelection label:hover .linehoverWhite2,
-.employeeStatusSelection label:hover .linehoverWhite2 {
+.employeeStatusSelection label:hover .linehoverWhite2,
+.filterCategoriesBtn:hover .linehoverWhite2 {
     stroke: var(--text-color5);
 }
 
