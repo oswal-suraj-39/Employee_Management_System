@@ -159,6 +159,7 @@ public class EmployeeServlet extends HttpServlet {
 			String EID = request.getParameter("EID");
 			String[] columnsName = request.getParameterValues("columnsName");
 			String[] newValues = request.getParameterValues("newValues");
+			String category = request.getParameter("Category");
 			
 			if (requestedAction != null) {
 				
@@ -213,17 +214,24 @@ public class EmployeeServlet extends HttpServlet {
 						for (int j = 0; j < size; j++) {
 							emp[j] = new JSONObject();
 							
-							emp[j].put("eid", employee[j].getEID());
-							emp[j].put("empID", employee[j].getEmpID());
-							emp[j].put("empFirstName", employee[j].getFirstName());
-							emp[j].put("empLastName", employee[j].getLastName());
-							emp[j].put("empPhoto", employee[j].getPhotoPath());
+							if (employee[j].getEID() != 0) {
+								emp[j].put("eid", employee[j].getEID());
+								emp[j].put("empID", employee[j].getEmpID());
+								emp[j].put("empFirstName", employee[j].getFirstName());
+								emp[j].put("empLastName", employee[j].getLastName());
+								emp[j].put("empPhoto", employee[j].getPhotoPath());
 							
-							emp[j].put("empEmail", contact[j].getEmail());
-							emp[j].put("empDeptName", department[j].getDeptName());
-							emp[j].put("empJobTitle", department[j].getjobTitle());
+								emp[j].put("empEmail", contact[j].getEmail());
+								emp[j].put("empDeptName", department[j].getDeptName());
+								emp[j].put("empJobTitle", department[j].getjobTitle());
+								
+								employees.put(emp[j]);
+							} else {
+								emp[j].put("status", "error");
+								employees.put(emp[j]);
+								return;
+							}
 							
-							employees.put(emp[j]);
 						}
 						
 						response.getWriter().print(employees);
@@ -374,7 +382,6 @@ public class EmployeeServlet extends HttpServlet {
 						response.setCharacterEncoding("UTF-8");
 							
 						EmployeeDAO eDAO = new EmployeeDAO();
-						ContactDAO cDAO = new ContactDAO();
 						DepartmentDAO dDAO = new DepartmentDAO();
 						
 						long cnt1 = eDAO.getTotalCountOfEID();
@@ -390,6 +397,43 @@ public class EmployeeServlet extends HttpServlet {
 						result.put("TotalCountOfDepartment", cnt4);
 						
 						response.getWriter().print(result);
+						
+						break;
+					}
+					
+					case "fetchFilterOptions": {
+						
+						response.setContentType("application/json");
+						response.setCharacterEncoding("UTF-8");
+						
+						JSONObject result = new JSONObject();
+					    DepartmentDAO dDAO = new DepartmentDAO();
+						
+					    if ("byDepartment".equals(category)) {
+
+					        JSONArray deptNameList = new JSONArray();
+					        ResultSet rs = dDAO.getUniqueDepartmentName();
+
+					        while (rs.next()) {
+					            deptNameList.put(rs.getString("dept_name"));
+					        }
+
+					        result.put("deptNameList", deptNameList);
+					    } else if ("byJobRole".equals(category)) {
+
+					        JSONArray jobTitleList = new JSONArray();
+					        ResultSet rs = dDAO.getUniqueJobTitle();
+
+					        while (rs.next()) {
+					            jobTitleList.put(rs.getString("job_title"));
+					        }
+
+					        result.put("jobTitleList", jobTitleList);
+					    } else {
+					        result.put("status", "error");
+					    }
+					    
+					    response.getWriter().print(result);
 						
 						break;
 					}

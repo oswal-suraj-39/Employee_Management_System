@@ -193,4 +193,27 @@ public class DepartmentDAO {
 		}
 	}
 	
+	public ResultSet getUniqueDepartmentName() {
+		try {
+			String sql = "select distinct dept_name from department;";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ResultSet getUniqueJobTitle() {
+		try {
+			String sql = "select distinct job_title from department;";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }
