@@ -99,20 +99,21 @@
 }
 
 .cardContainer {
-    display: flex;
-    gap: 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     color: black;
-    min-width: 12rem;
-    flex-wrap: wrap;
-    justify-content: center;
+    max-width: 100%;
+    gap: 3rem;
+    padding: 0 2rem;
 }
 
 .card {
     display: flex;
+    justify-content: space-between;
     border-radius: 1rem;
     box-shadow: -1px 0px 3px 0px rgba(0, 0, 0, 0.3);
-    width: min-content;
-    height: min-content;
+    height: 18rem;
 }
 
 .card .viewBtn, 
@@ -161,7 +162,7 @@
     font-size: 0.8rem;
 }
 
-.shortInfo empData {
+.shortInfo .empData {
     font-size: 1rem;
 }
 
@@ -173,9 +174,24 @@ input[type="number"]::-webkit-inner-spin-button {
     display: flex;
     justify-content: center;
     width: 10rem;
-    height: 17.78rem;
     overflow: hidden;
     border-radius: 0 1rem 1rem 0;
+}
+
+@media screen and (max-width: 768px) {
+    .searchEmp {
+        width: 100%;
+    }
+
+    .searchEmp input[type="text" i] {
+        flex: 1;
+    }
+
+    .cardContainer {
+        grid-template-columns: 1fr;
+        padding: 0 1rem;
+        gap: 1rem;
+    }
 }
 
 @media screen and (max-width: 425px) {
@@ -183,35 +199,24 @@ input[type="number"]::-webkit-inner-spin-button {
         padding: 0 1rem;
     }
 
-    .searchEmp input {
-        width: 14rem;
+    .card {
+        flex-direction: column-reverse;
+        height: auto;
     }
 
-	/* .cardContainer {
-		gap: 0rem;
-	}
+    .photoFrame {
+        height: 10rem;
+        border-radius: 50%;
+        align-self: center;
+        margin: 1rem 0;
+    }
 
-	.card {
-		transform: scale(0.8);
-	} */
 }
 
-@media screen and (max-width: 375px) {
-    .searchEmp input[type="text" i] {
-        width: 12rem;
-    }
-	
-	/* .card {
-		transform: scale(0.7);
-	} */
+/* @media screen and (max-width: 375px) {
+
 }
 
 @media screen and (max-width: 320px) {
-    .searchEmp input[type="text" i] {
-        width: 9rem;
-    }
 
-	/* .card {
-		transform: scale(0.6);
-	} */
-}
+} */
