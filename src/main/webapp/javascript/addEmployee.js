@@ -101,11 +101,15 @@ function dropDownListIconLoader(genderSelection, employeeTypeSelection, employee
 
 async function deleteEmployeeData(MessageScreen) {
     const mainContent4 = document.querySelector(".mainContent");
-    const [employee_id, deleteBtn] = mainContent4.querySelectorAll('input[name="employee_id"], .deleteBtn');
-
+	
+	const [inputContainer, btnSection] = mainContent4.querySelectorAll(".inputContainer, .btnSection")
+	const [employee_id, empImgFrame, empImg, uploadSvg] = inputContainer.querySelectorAll('input[name="employee_id"], .empImgFrame, .empImg, .uploadSvg');
+	const [deleteBtn, updateBtn, saveBtn] = btnSection.querySelectorAll(".deleteBtn, .updateBtn, .saveBtn");
+	
     deleteBtn.onclick = async function () {
+		
         console.log(employee_id.value);
-
+		
         const formData = new FormData();
         formData.append("action", "deleteEmployeeDataByID");
         formData.append("empID", employee_id.value);
@@ -136,16 +140,27 @@ async function deleteEmployeeData(MessageScreen) {
                 MessageScreen.removeAttribute("style");
                 MessageScreen.textContent = "";
             }, 1000);
-            const [empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus] = mainContent4.querySelectorAll(".inputField");
+			
+            const [empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus] = inputContainer.querySelectorAll(".inputField");
             [empID, empFirstName, empLastName, empGender, empDOB, empSalary, empEmail, empPhone, empAddress, empCity, empState, empCountry, empPincode, empDeptName, empJobTitle, empType, empJoinDate, empStatus].forEach(ele => {
                 ele.value = "";
             });
-            const Radios = mainContent4.querySelectorAll('input[name="gender"], input[name="emptype"], input[name="empStatus"]');
-            Radios.forEach(ra => {
+			
+            const Radios = inputContainer.querySelectorAll('input[name="gender"], input[name="emptype"], input[name="empStatus"]');
+            
+			Radios.forEach(ra => {
                 if (ra.checked) {
                     ra.checked = false;
                 }
             });
+			
+			empImgFrame.removeAttribute("style");
+			uploadSvg.removeAttribute("style");
+		    empImg.removeAttribute("style");
+		    empImg.removeAttribute("src");
+			deleteBtn.setAttribute("hidden", "true");
+			updateBtn.setAttribute("hidden", "true");
+			saveBtn.removeAttribute("hidden");
         }
     }
 }
@@ -153,7 +168,8 @@ async function deleteEmployeeData(MessageScreen) {
 async function updateEmployeeData(mainContent4, columns, newValues, MessageScreen) {
 
     const [employee_id, updateBtn] = mainContent4.querySelectorAll('input[name="employee_id"], .updateBtn');
-    updateBtn.onclick = async function () {
+    
+	updateBtn.onclick = async function () {
         for (let i = 0; i < newValues.length; i++) {
             if (newValues[i].value !== undefined) {
                 newValues[i] = newValues[i].value;
@@ -262,8 +278,8 @@ async function saveEmployeeData(mainContent4, MessageScreen) {
     const formData = new FormData;
 
     formData.append("empID", empID.value);
-    formData.append("empFirstName", empFirstName.value);
-    formData.append("empLastName", empLastName.value);
+    formData.append("empFirstName", empFirstName.value.toLowerCase());
+    formData.append("empLastName", empLastName.value.toLowerCase());
     formData.append("empGender", empGender.value);
     formData.append("empDOB", empDOB.value);
     formData.append("empSalary", empSalary.value);
@@ -271,14 +287,14 @@ async function saveEmployeeData(mainContent4, MessageScreen) {
 
     formData.append("empEmail", empEmail.value);
     formData.append("empPhone", empPhone.value);
-    formData.append("empAddress", empAddress.value);
-    formData.append("empCity", empCity.value);
-    formData.append("empState", empState.value);
-    formData.append("empCountry", empCountry.value);
+    formData.append("empAddress", empAddress.value.toLowerCase());
+    formData.append("empCity", empCity.value.toLowerCase());
+    formData.append("empState", empState.value.toLowerCase());
+    formData.append("empCountry", empCountry.value.toLowerCase());
     formData.append("empPincode", empPincode.value);
 
-    formData.append("empDeptName", empDeptName.value);
-    formData.append("empJobTitle", empJobTitle.value);
+    formData.append("empDeptName", empDeptName.value.toLowerCase());
+    formData.append("empJobTitle", empJobTitle.value.toLowerCase());
     formData.append("empType", empType.value);
     formData.append("empJoinDate", empJoinDate.value);
     formData.append("empStatus", empStatus.value);

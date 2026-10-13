@@ -274,12 +274,20 @@ async function fetchData(mainContent3, cardContainer, MessageScreen) {
                 let brightness = (color[0] * 299 + color[1] * 587 + color[2] * 114) / 1000;
                 const currentInfo = cards[index].querySelector(".shortInfo");
                 const currentInputs = cards[index].querySelectorAll(".shortInfo input");
+                const mobile425 = window.matchMedia("(max-width: 425px)");
+                const photoFrame = cards[index].querySelector(".photoFrame");
                 if (brightness > 128) {
+                    if (mobile425.matches) {
+                        photoFrame.style.border = "1px solid black";
+                    }
                     currentInfo.style.color = "black";
                     currentInputs.forEach(input => {
                         input.style.color = "black";
                     });
                 } else {
+                    if (mobile425.matches) {
+                        photoFrame.style.border = "1px solid white";
+                    }
                     currentInfo.style.color = "white";
                     currentInputs.forEach(input => {
                         input.style.color = "white";
