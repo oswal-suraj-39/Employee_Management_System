@@ -385,15 +385,16 @@ public class EmployeeServlet extends HttpServlet {
 						DepartmentDAO dDAO = new DepartmentDAO();
 						
 						long cnt1 = eDAO.getTotalCountOfEID();
-						long cnt2 = dDAO.getTotalCountOfActiveEmployee();
-						long cnt3 = dDAO.getTotalCountOfInActiveEmployee();
 						long cnt4 = dDAO.getTotalCountOfDepartment();
+						ResultSet rs = dDAO.getEmpStatusTypesTotal();
 						
 						JSONObject result = new JSONObject();
-							
+
 						result.put("TotalCountOfEID", cnt1);
-						result.put("TotalCountOfActiveEmployee", cnt2);
-						result.put("TotalCountOfInActiveEmployee", cnt3);
+						while (rs.next()) {
+							result.put("total_active_employee", rs.getInt("total_active_employee"));
+							result.put("total_inactive_employee", rs.getInt("total_inactive_employee"));
+						}
 						result.put("TotalCountOfDepartment", cnt4);
 						
 						response.getWriter().print(result);
@@ -435,6 +436,50 @@ public class EmployeeServlet extends HttpServlet {
 					    
 					    response.getWriter().print(result);
 						
+						break;
+					}
+					
+					case "FetchChartsData": {
+						
+						response.setContentType("application/json");
+						response.setCharacterEncoding("UTF-8");
+						
+						JSONObject result = new JSONObject();
+						JSONObject gendersData = new JSONObject();
+						JSONObject employeeStatusData = new JSONObject();
+						JSONObject departmentWiseEmployeeCount = new JSONObject();
+						JSONArray deptNameList = new JSONArray();
+						JSONArray CountList = new JSONArray();
+						EmployeeDAO eDAO = new EmployeeDAO();
+						DepartmentDAO dDAO = new DepartmentDAO();
+						
+						ResultSet rs1 = eDAO.getGenderTypesTotal();
+						ResultSet rs2 = dDAO.getEmpStatusTypesTotal();
+						ResultSet rs3 = dDAO.getDepartmentWiseEmployeeCount();
+						
+						while (rs1.next()) {
+							gendersData.put("male", rs1.getInt("total_males"));
+							gendersData.put("female", rs1.getInt("total_females"));
+							gendersData.put("other", rs1.getInt("total_others"));
+						}
+						
+						while (rs2.next()) {
+							employeeStatusData.put("total_active_employee", rs2.getInt("total_active_employee"));
+							employeeStatusData.put("total_inactive_employee", rs2.getInt("total_inactive_employee"));
+						}
+						
+						while (rs3.next()) {
+							deptNameList.put(rs3.getString("dept_name"));
+							CountList.put(rs3.getInt("count"));
+						}
+						
+						result.put("gendersData", gendersData);
+						result.put("employeeStatusData", employeeStatusData);
+						departmentWiseEmployeeCount.put("deptNameList", deptNameList);
+						departmentWiseEmployeeCount.put("countList", CountList);
+						result.put("departmentWiseEmployeeCount", departmentWiseEmployeeCount);
+						
+						response.getWriter().print(result);
 						break;
 					}
 	

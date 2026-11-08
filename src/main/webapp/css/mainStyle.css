@@ -20,6 +20,7 @@
 	--color-8: rgb(196, 196, 196);
 	--color-9: #16db65;
 	--color-10: #16db65;
+	--color-11: rgb(237, 237, 237);
 	--text-color1: white;
 	--text-color2: black;
 	--text-color3: black;
@@ -45,6 +46,7 @@ body.dark {
 	--color-8: #16db65;
 	--color-9: transparent;
 	--color-10: white;
+	--color-11: #0d2818;
 	--text-color1: #16db65;
 	--text-color2: white;
 	--text-color3: #16db65;
@@ -302,7 +304,18 @@ body {
 	justify-content: space-between;
 }
 
+.chart-container {
+	display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1rem;
+}
 
+.chart-box {
+	background-color: var(--color-11);
+	border-radius: 0.5rem;
+	padding: 1rem;
+}
 
 @media screen and (max-width: 768px) {
 	.btn {
@@ -328,6 +341,10 @@ body {
 
 	.countInfo {
 		min-width: 3.5rem;
+	}
+	
+	.chart-container {
+    		justify-content: center;
 	}
 }
 

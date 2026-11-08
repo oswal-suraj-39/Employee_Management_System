@@ -1,8 +1,37 @@
+function FilterOutCards(filterOptions) {
+	let OptionsList = filterOptions.querySelectorAll("input[name='FilterName']");
+	let array = []
+	
+	OptionsList.forEach((Option)=>{
+		Option.addEventListener("click", ()=>{
+			if (Option.checked) {
+				array.push(Option.value);
+				console.log(array);
+			} else if (!Option.checked) {
+				array = array.filter(item => item !== Option.value);
+				console.log(array);
+			}
+		});
+		
+	});
+}
+
 function fetchFilterOptions(mainContent3, cardContainer, MessageScreen) {
 	
 	const filterBtn = mainContent3.querySelector(".filterBtn");
-	const filterCateBtns = filterBtn.querySelectorAll(".filterCategoriesBtn"); 
-	const filterOptions = filterBtn.querySelector(".filterOptions");
+	const filterCateBtns = mainContent3.querySelectorAll(".filterCategoriesBtn"); 
+	const filterOptions = mainContent3.querySelector(".filterOptions");
+	const filterScreen = mainContent3.querySelector(".filterScreen");
+	let filterBtbBool = false;
+	
+	filterBtn.addEventListener("click", (event) => {
+		filterScreen.classList.toggle("filterScreenOpen");
+		if (!filterBtbBool) {
+			filterBtbBool = !filterBtbBool;
+		} else if (filterBtbBool) {
+			filterBtbBool = !filterBtbBool;
+		}
+	});
 	
 	filterCateBtns.forEach((btn) => {
 		btn.addEventListener("click", async () => {
@@ -36,13 +65,20 @@ function fetchFilterOptions(mainContent3, cardContainer, MessageScreen) {
 				filterOptions.innerHTML = "";
 				data.deptNameList.forEach((name) => {
 					
+					/*filterOptions.innerHTML += `
+					<label>
+						<p>${name}</p>
+						<input type="checkbox" name="deptNameFilter" value="${name}">
+					</label>
+					`;*/
 					filterOptions.innerHTML += `
 					<label>
 						<p>${name}</p>
-						<input type="radio" value="${name}" name="deptNameFilter">
+						<input type="checkbox" name="FilterName" value="${name}">
 					</label>
 					`;
 				});	
+				FilterOutCards(filterOptions)
 			}
 			
 			if (data.jobTitleList !== undefined) {
@@ -50,13 +86,20 @@ function fetchFilterOptions(mainContent3, cardContainer, MessageScreen) {
 				filterOptions.innerHTML = "";
 				data.jobTitleList.forEach((name) => {
 					
-					filterOptions.innerHTML += `
+					/*filterOptions.innerHTML += `
 					<label>
 						<p>${name}</p>
-						<input type="radio" value="${name}" name="jobTitleFilter">
+						<input type="checkbox" name="jobTitleFilter" value="${name}">
+					</label>
+					`;*/
+					filterOptions.innerHTML += `
+						<label>
+							<p>${name}</p>
+						<input type="checkbox" name="FilterName" value="${name}">
 					</label>
 					`;
-				});	
+				});
+				FilterOutCards(filterOptions)	
 			}
 			
 		});
@@ -69,7 +112,7 @@ function viewEmpIconLoader(mainContent3) {
     const searchIcon = mainContent3.querySelector(".searchIcon");
 
     const filterBtn = mainContent3.querySelector(".filterBtn");
-    const filterIcons = filterBtn.querySelectorAll(".filterCateIcon"); 
+    const filterIcons = mainContent3.querySelectorAll(".filterCateIcon"); 
 
     filterIcons[0].innerHTML = `
         <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -111,11 +154,11 @@ function searchEmployeeData(mainContent3, cardContainer) {
     
             const Data = card.querySelectorAll(".empData");
             let array = [];
-    
+    			
             Data.forEach(d => {
                 array.push(d.textContent.toLowerCase() !== null ? d.textContent.toLowerCase() : null);
             });
-    
+    	
             if (array[0].includes(name) ||
                 array[1].includes(name) ||
                 array[2].includes(name) ||

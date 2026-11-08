@@ -15,18 +15,7 @@ public class EmployeeDAO {
 	
 	public boolean addEmployee(Employee employee) {
 		try {	
-			String sql1 = 
-					"""
-					insert into employees(
-						employee_id,
-						first_name,
-						last_name,
-						gender,
-						dob,
-						salary,
-						photo_path
-					) values (?, ?, ?, ?, ?, ?, ?)
-					""";
+			String sql1 = "insert into employees( employee_id, first_name, last_name, gender, dob, salary, photo_path ) values (?, ?, ?, ?, ?, ?, ?)";
 			
 			PreparedStatement ps = this.con.prepareStatement(sql1);
 			
@@ -50,12 +39,7 @@ public class EmployeeDAO {
 	
 	public ResultSet getEmployeeID(Employee employee) {
 		try {
-			String sql = 
-					"""
-					select e_id 
-					from employees 
-					where employee_id = ?;
-					""";
+			String sql = "select e_id from employees where employee_id = ?;";
 			
 			PreparedStatement ps = con.prepareStatement(sql);
 			
@@ -73,11 +57,7 @@ public class EmployeeDAO {
 
 	public ResultSet getAllEmployeeDataForCards() {
 		try {
-			String sql = 
-					"""
-					select e_id, employee_id, first_name, last_name, photo_path
-					from employees;
-					""";
+			String sql = "select e_id, employee_id, first_name, last_name, photo_path from employees order by e_id asc;";
 			
 			PreparedStatement ps = this.con.prepareStatement(sql);
 			
@@ -94,10 +74,7 @@ public class EmployeeDAO {
 	public ResultSet getTotalCountOFEID() {
 		try {
 			String sql = 
-					"""
-					select count(e_id)
-					from employees;
-					""";
+					"select count(e_id) from employees;";
 			
 			PreparedStatement ps = this.con.prepareStatement(sql);
 			
@@ -113,11 +90,7 @@ public class EmployeeDAO {
 	
 	public ResultSet getEmployeeDataByEID(int eid) {
 		try {
-			String sql = """
-					select *
-					from employees
-					where e_id = ?;
-					""";
+			String sql = "select * from employees where e_id = ?;";
 			
 			PreparedStatement ps = this.con.prepareStatement(sql);
 			
@@ -227,4 +200,17 @@ public class EmployeeDAO {
 			return -1;
 		}
 	}
+	
+	public ResultSet getGenderTypesTotal() {
+		try {
+			String sql = "SELECT COUNT(*) FILTER (WHERE gender = 'male') AS total_males, COUNT(*) FILTER (WHERE gender = 'female') AS total_females, COUNT(*) FILTER (WHERE gender = 'other') AS total_others FROM employees;";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 }

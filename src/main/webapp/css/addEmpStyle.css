@@ -133,13 +133,20 @@ input[type="date"]::-webkit-input-placeholder {
     right: 0;
     padding: 0;
     display: none;
+    overflow-wrap: anywhere;
+}
+
+.filterScreenOpen {
+	display: flex;
 }
 
 .genderSelection label:hover,
 .employeeTypeSelection label:hover,
 .employeeStatusSelection label:hover,
 .filterCategoriesBtn:hover,
-.filterCategoriesBtn:hover p {
+.filterCategoriesBtn:hover p,
+.filterOptions label:hover,
+.filterOptions label:hover p {
     background-color: var(--color-8);
     color: var(--text-color5);
 }

@@ -54,7 +54,8 @@ public class ContactDAO {
 			String sql = 
 					"""
 					select email
-					from contact;
+					from contact
+					order by e_id asc;
 					""";
 			
 			PreparedStatement ps = this.con.prepareStatement(sql);

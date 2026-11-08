@@ -51,7 +51,8 @@ public class DepartmentDAO {
 			String sql = 
 					"""
 					select dept_name, job_title
-					from department;
+					from department
+					order by e_id asc;
 					""";
 			
 			PreparedStatement ps = this.con.prepareStatement(sql);
@@ -145,37 +146,37 @@ public class DepartmentDAO {
 		}
 	}
 	
-	public long getTotalCountOfActiveEmployee() {
-		try {
-			long cnt = 0;
-			String sql = "select count(employee_status) from department where employee_status = 'active';";
-			PreparedStatement ps = this.con.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				cnt = rs.getLong("count");
-			}
-			return cnt;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
-	}
-	
-	public long getTotalCountOfInActiveEmployee() {
-		try {
-			long cnt = 0;
-			String sql = "select count(employee_status) from department where employee_status = 'on leave';";
-			PreparedStatement ps = this.con.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				cnt = rs.getLong("count");
-			}
-			return cnt;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return -1;
-		}
-	}
+//	public long getTotalCountOfActiveEmployee() {
+//		try {
+//			long cnt = 0;
+//			String sql = "select count(employee_status) from department where employee_status = 'active';";
+//			PreparedStatement ps = this.con.prepareStatement(sql);
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//				cnt = rs.getLong("count");
+//			}
+//			return cnt;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return -1;
+//		}
+//	}
+//	
+//	public long getTotalCountOfInActiveEmployee() {
+//		try {
+//			long cnt = 0;
+//			String sql = "select count(employee_status) from department where employee_status = 'on leave';";
+//			PreparedStatement ps = this.con.prepareStatement(sql);
+//			ResultSet rs = ps.executeQuery();
+//			while (rs.next()) {
+//				cnt = rs.getLong("count");
+//			}
+//			return cnt;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return -1;
+//		}
+//	}
 	
 	public long getTotalCountOfDepartment() {
 		try {
@@ -208,6 +209,30 @@ public class DepartmentDAO {
 	public ResultSet getUniqueJobTitle() {
 		try {
 			String sql = "select distinct job_title from department;";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ResultSet getEmpStatusTypesTotal() {
+		try {
+			String sql = "SELECT COUNT(*) FILTER (WHERE employee_status = 'active') AS total_active_employee, COUNT(*) FILTER (WHERE employee_status = 'on leave') AS total_inactive_employee FROM department;";
+			PreparedStatement ps = this.con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			return rs;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ResultSet getDepartmentWiseEmployeeCount() {
+		try {
+			String sql = "select dept_name, count(distinct e_id) from department group by dept_name order by dept_name;";
 			PreparedStatement ps = this.con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			return rs;

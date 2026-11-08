@@ -21,9 +21,9 @@ async function counterPanelDataLoader(mainContent5) {
 	
 	cNumber[0].textContent = data.TotalCountOfEID != -1 ? data.TotalCountOfEID : 0;
 	
-	cNumber[1].textContent = data.TotalCountOfActiveEmployee != -1 ? data.TotalCountOfActiveEmployee : 0;
+	cNumber[1].textContent = data.total_active_employee != null ? data.total_active_employee : 0;
 	
-	cNumber[2].textContent = data.TotalCountOfInActiveEmployee != -1 ? data.TotalCountOfInActiveEmployee : 0;
+	cNumber[2].textContent = data.total_inactive_employee != null ? data.total_inactive_employee : 0;
 	
 	cNumber[3].textContent = data.TotalCountOfDepartment != -1 ? data.TotalCountOfDepartment : 0;
 	
@@ -114,6 +114,116 @@ function updateClock(mainContent5) {
     time.textContent = `${hours} : ${minutes} ${ampm}`;
 }
 
+async function chartLoader(mainContent5) {
+	console.log("chart function loaded");
+	
+	const chartContainer = mainContent5.querySelector(".chart-container");
+	const [pieChart1, pieChart2, barChart] = chartContainer.querySelectorAll("#pie-chart-1, #pie-chart-2, #bar-chart");
+	
+	const textColor = getComputedStyle(document.body).getPropertyValue("--text-color3").trim();
+	const isSmallMobile = window.matchMedia("(max-width: 375px)").matches;
+	const chartAxis = isSmallMobile ? "x" : "y";
+
+	const formData = new FormData();
+	formData.append("action", "FetchChartsData");
+		
+	const response = await fetch("EmployeeServlet", {
+		method: "POST",
+	    body: formData
+	});
+		
+	const data = await response.json();
+
+	const PieChart1 = new Chart(pieChart1, {
+	    type: "pie",
+	    data: {
+			labels: ["Active", "Inactive"],
+			datasets: [{
+		        label: "Employee Status",
+		        data: [data.employeeStatusData.total_active_employee, data.employeeStatusData.total_inactive_employee],
+		        backgroundColor: ["green", "red"],
+		    	}]
+	    },
+		options: {
+			plugins: {
+				title: {
+					display: true,
+					text: "Employee Status",
+					color: textColor
+				},
+				legend: {
+					labels: {
+						color: textColor
+			        }
+			    }
+			}
+		}
+	});
+	
+	const PieChart2 = new Chart(pieChart2, {
+		type: "pie",
+		data: {
+			labels: ["Male", "Female", "Other"],
+			datasets: [{
+		    		label: "genders",
+		    		data: [data.gendersData.male, data.gendersData.female, data.gendersData.other],
+	        		backgroundColor: ["#36A2EB", "#FF6384", "#FF9F40"]
+	    		}]
+		},
+		options: {
+			plugins: {
+				title: {
+					display: true,
+					text: "Gander",
+					color: textColor
+				},
+				legend: {
+					labels: {
+				        color: textColor
+			        }
+			    }
+			}
+		}
+	});
+	
+	const BarChart = new Chart(barChart, {
+		type: "bar",
+		data: {
+			labels: data.departmentWiseEmployeeCount.deptNameList,
+			datasets: [{
+				label: "Department-wise Employee",
+				data: data.departmentWiseEmployeeCount.countList,
+				backgroundColor: '#16db65',
+				borderRadius: 50
+			}]
+		},
+		options: {
+			indexAxis: chartAxis,
+			scales: {
+				x: {
+			        ticks: {
+		                color: textColor
+		            }
+		        },
+			    y: {
+			        ticks: {
+	                		color: textColor,
+						autoSkip: false
+			     	}
+				}
+			},
+			plugins: {
+				legend: {
+					labels: {
+						color: textColor
+			        }
+				}
+			}
+		}
+	});
+
+}
+
 async function loadDashboard() {
     try {
         const mainContent5 = document.querySelector(".mainContent");
@@ -121,6 +231,7 @@ async function loadDashboard() {
         setInterval(updateClock, 60000);
         svgLoaderForDashboard(mainContent5);
 		await counterPanelDataLoader(mainContent5);
+		await chartLoader(mainContent5);
     } catch (error) {
         console.error("Error loading dashboard:", error);
 
