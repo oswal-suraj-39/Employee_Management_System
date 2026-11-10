@@ -82,7 +82,10 @@ Stores employee job and department information.
 - Join Date
 - Employee Status
 
-*Note: Actual column names and relationships may vary according to the database implementation.*
+*Note: Actual column names and relationships may vary according to the database implementation reads employee_backup.sql*
+```
+Employee_Management_System/src/main/webapp/employee_backup.sql
+```
 
 ## ⚙️ Requirements
 
