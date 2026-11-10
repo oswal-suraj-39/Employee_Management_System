@@ -7,10 +7,13 @@
 
 .header3 {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
     width: stretch;
     height: fit-content;
     padding: 0 3rem;
+    gap: 1rem;
 }
 
 .searchEmp {
@@ -99,6 +102,44 @@
     color: var(--text-color3);
 }
 
+.pageButtonContainer {
+	display: none;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.perviouCardBtn {
+	display: flex;
+}
+
+.nextCardBtn {
+	display: flex;
+}
+
+.perviouCardBtn, .nextCardBtn {
+    justify-content: center;
+    align-items: center;
+    border-radius: 12rem;
+    border: 2px solid transparent;
+    background-color: transparent;
+    height: 32px;
+    width: 32px;
+}
+
+.perviouCardBtn:hover, .nextCardBtn:hover {
+	background-color: var(--color-12);
+	border: 2px solid var(--color-13);
+}
+
+.perviouCardBtn:active, .nextCardBtn:active {
+	background-color: transparent;
+	border: 2px solid transparent;
+}
+
+.perviouCardBtn:focus-visible, .nextCardBtn:focus-visible {
+    outline: 3px solid var(--text-color3);
+}
+
 .cardContainer {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -182,6 +223,10 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 @media screen and (max-width: 768px) {
+	.header3 {
+        justify-content: flex-end;
+    }
+    
     .searchEmp {
         width: 100%;
     }

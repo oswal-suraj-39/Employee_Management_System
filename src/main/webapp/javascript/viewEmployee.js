@@ -1,118 +1,120 @@
+let startNum = 1;
+let endNum = 10;
+let offsetValue;
 function FilterOutCards(filterOptions) {
-	let OptionsList = filterOptions.querySelectorAll("input[name='FilterName']");
-	let array = []
-	
-	OptionsList.forEach((Option)=>{
-		Option.addEventListener("click", ()=>{
-			if (Option.checked) {
-				array.push(Option.value);
-				console.log(array);
-			} else if (!Option.checked) {
-				array = array.filter(item => item !== Option.value);
-				console.log(array);
-			}
-		});
-		
-	});
+    let OptionsList = filterOptions.querySelectorAll("input[name='FilterName']");
+    let array = []
+
+    OptionsList.forEach((Option) => {
+        Option.addEventListener("click", () => {
+            if (Option.checked) {
+                array.push(Option.value);
+                console.log(array);
+            } else if (!Option.checked) {
+                array = array.filter(item => item !== Option.value);
+                console.log(array);
+            }
+        });
+
+    });
 }
 
 function fetchFilterOptions(mainContent3, cardContainer, MessageScreen) {
-	
-	const filterBtn = mainContent3.querySelector(".filterBtn");
-	const filterCateBtns = mainContent3.querySelectorAll(".filterCategoriesBtn"); 
-	const filterOptions = mainContent3.querySelector(".filterOptions");
-	const filterScreen = mainContent3.querySelector(".filterScreen");
-	let filterBtbBool = false;
-	
-	filterBtn.addEventListener("click", (event) => {
-		filterScreen.classList.toggle("filterScreenOpen");
-		if (!filterBtbBool) {
-			filterBtbBool = !filterBtbBool;
-		} else if (filterBtbBool) {
-			filterBtbBool = !filterBtbBool;
-		}
-	});
-	
-	filterCateBtns.forEach((btn) => {
-		btn.addEventListener("click", async () => {
-			const byCategories = btn.dataset.page;
-			
-			const formData = new FormData();
-			formData.append("action", "fetchFilterOptions");
-			formData.append("Category", byCategories);
-			
-			const response = await fetch("EmployeeServlet", {
-				method: "POST",
-			    	body: formData
-			});
 
-			const data = await response.json();
-			
-			if (data.status === "error") {
-		        MessageScreen.style.display = "flex";
-				MessageScreen.style.backgroundColor = "rgba(219 22 22 / 50%)";
-			    MessageScreen.style.color = "rgb(76 7 7)";
-			    MessageScreen.textContent = "Error!";
-				setTimeout(() => {
-		        		MessageScreen.removeAttribute("style");
-					MessageScreen.textContent = "";
-		   		}, 2000);
-				return;
-			}
-			
-			if (data.deptNameList !== undefined) {
-				
-				filterOptions.innerHTML = "";
-				data.deptNameList.forEach((name) => {
-					
-					/*filterOptions.innerHTML += `
-					<label>
-						<p>${name}</p>
-						<input type="checkbox" name="deptNameFilter" value="${name}">
-					</label>
-					`;*/
-					filterOptions.innerHTML += `
+    const filterBtn = mainContent3.querySelector(".filterBtn");
+    const filterCateBtns = mainContent3.querySelectorAll(".filterCategoriesBtn");
+    const filterOptions = mainContent3.querySelector(".filterOptions");
+    const filterScreen = mainContent3.querySelector(".filterScreen");
+    let filterBtbBool = false;
+
+    filterBtn.addEventListener("click", (event) => {
+        filterScreen.classList.toggle("filterScreenOpen");
+        if (!filterBtbBool) {
+            filterBtbBool = !filterBtbBool;
+        } else if (filterBtbBool) {
+            filterBtbBool = !filterBtbBool;
+        }
+    });
+
+    filterCateBtns.forEach((btn) => {
+        btn.addEventListener("click", async () => {
+            const byCategories = btn.dataset.page;
+
+            const formData = new FormData();
+            formData.append("action", "fetchFilterOptions");
+            formData.append("Category", byCategories);
+
+            const response = await fetch("EmployeeServlet", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.status === "error") {
+                MessageScreen.style.display = "flex";
+                MessageScreen.style.backgroundColor = "rgba(219 22 22 / 50%)";
+                MessageScreen.style.color = "rgb(76 7 7)";
+                MessageScreen.textContent = "Error!";
+                setTimeout(() => {
+                    MessageScreen.removeAttribute("style");
+                    MessageScreen.textContent = "";
+                }, 2000);
+                return;
+            }
+
+            if (data.deptNameList !== undefined) {
+
+                filterOptions.innerHTML = "";
+                data.deptNameList.forEach((name) => {
+
+                    /*filterOptions.innerHTML += `
+                    <label>
+                        <p>${name}</p>
+                        <input type="checkbox" name="deptNameFilter" value="${name}">
+                    </label>
+                    `;*/
+                    filterOptions.innerHTML += `
 					<label>
 						<p>${name}</p>
 						<input type="checkbox" name="FilterName" value="${name}">
 					</label>
 					`;
-				});	
-				FilterOutCards(filterOptions)
-			}
-			
-			if (data.jobTitleList !== undefined) {
-				
-				filterOptions.innerHTML = "";
-				data.jobTitleList.forEach((name) => {
-					
-					/*filterOptions.innerHTML += `
-					<label>
-						<p>${name}</p>
-						<input type="checkbox" name="jobTitleFilter" value="${name}">
-					</label>
-					`;*/
-					filterOptions.innerHTML += `
+                });
+                FilterOutCards(filterOptions)
+            }
+
+            if (data.jobTitleList !== undefined) {
+
+                filterOptions.innerHTML = "";
+                data.jobTitleList.forEach((name) => {
+
+                    /*filterOptions.innerHTML += `
+                    <label>
+                        <p>${name}</p>
+                        <input type="checkbox" name="jobTitleFilter" value="${name}">
+                    </label>
+                    `;*/
+                    filterOptions.innerHTML += `
 						<label>
 							<p>${name}</p>
 						<input type="checkbox" name="FilterName" value="${name}">
 					</label>
 					`;
-				});
-				FilterOutCards(filterOptions)	
-			}
-			
-		});
-	});
-	
+                });
+                FilterOutCards(filterOptions)
+            }
+
+        });
+    });
+
 }
 
 function viewEmpIconLoader(mainContent3) {
 
-    const searchIcon = mainContent3.querySelector(".searchIcon");
-
-    const filterBtn = mainContent3.querySelector(".filterBtn");
-    const filterIcons = mainContent3.querySelectorAll(".filterCateIcon"); 
+    const header3 = mainContent3.querySelector(".header3");
+    const [searchIcon, filterBtn, nextCardBtn, perviouCardBtn] = header3.querySelectorAll(".searchIcon, .filterBtn, .nextCardBtn, .perviouCardBtn");
+    const filterIcons = header3.querySelectorAll(".filterCateIcon");
 
     filterIcons[0].innerHTML = `
         <svg width="32px" height="32px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -132,12 +134,24 @@ function viewEmpIconLoader(mainContent3) {
         </svg>
     `;
 
-    filterBtn.innerHTML += `
+    filterBtn.innerHTML = `
         <svg width="28px" height="28px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="filterIcon">
             <path d="M3 4.6C3 4.03995 3 3.75992 3.10899 3.54601C3.20487 3.35785 3.35785 3.20487 3.54601 3.10899C3.75992 3 4.03995 3 4.6 3H19.4C19.9601 3 20.2401 3 20.454 3.10899C20.6422 3.20487 20.7951 3.35785 20.891 3.54601C21 3.75992 21 4.03995 21 4.6V6.33726C21 6.58185 21 6.70414 20.9724 6.81923C20.9479 6.92127 20.9075 7.01881 20.8526 7.10828C20.7908 7.2092 20.7043 7.29568 20.5314 7.46863L14.4686 13.5314C14.2957 13.7043 14.2092 13.7908 14.1474 13.8917C14.0925 13.9812 14.0521 14.0787 14.0276 14.1808C14 14.2959 14 14.4182 14 14.6627V17L10 21V14.6627C10 14.4182 10 14.2959 9.97237 14.1808C9.94787 14.0787 9.90747 13.9812 9.85264 13.8917C9.7908 13.7908 9.70432 13.7043 9.53137 13.5314L3.46863 7.46863C3.29568 7.29568 3.2092 7.2092 3.14736 7.10828C3.09253 7.01881 3.05213 6.92127 3.02763 6.81923C3 6.70414 3 6.58185 3 6.33726V4.6Z" stroke="var(--text-color1)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
     `;
- 
+
+    perviouCardBtn.innerHTML = `
+		<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+	    		<path d="M8.91003 19.9201L15.43 13.4001C16.2 12.6301 16.2 11.3701 15.43 10.6001L8.91003 4.08008" stroke="var(--text-color3)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+		</svg>
+	`;
+
+    nextCardBtn.innerHTML = `
+		<svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+		    <path d="M15 19.9201L8.47997 13.4001C7.70997 12.6301 7.70997 11.3701 8.47997 10.6001L15 4.08008" stroke="var(--text-color3)" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+		</svg>
+	`;
+
 }
 
 function searchEmployeeData(mainContent3, cardContainer) {
@@ -146,19 +160,19 @@ function searchEmployeeData(mainContent3, cardContainer) {
     const searchInput = header3.querySelector(".searchInput");
 
     searchInput.addEventListener("input", function() {
-    
+
         let name = searchInput.value.toLowerCase();
         const cards = cardContainer.querySelectorAll(".card");
-    
+
         cards.forEach((card) => {
-    
+
             const Data = card.querySelectorAll(".empData");
             let array = [];
-    			
+
             Data.forEach(d => {
                 array.push(d.textContent.toLowerCase() !== null ? d.textContent.toLowerCase() : null);
             });
-    	
+
             if (array[0].includes(name) ||
                 array[1].includes(name) ||
                 array[2].includes(name) ||
@@ -255,9 +269,76 @@ async function fetchDataByEID(btn) {
     });
 }
 
-async function fetchData(mainContent3, cardContainer, MessageScreen) {
+async function fetchNewCardsdData(mainContent3, cardContainer, MessageScreen) {
+
+    const header3 = mainContent3.querySelector(".header3");
+	const pageButtonContainer = header3.querySelector(".pageButtonContainer");
+    let [startCardNum, endCardNum] = pageButtonContainer.querySelectorAll("#startCardNum, #endCardNum");
+    const [perviouCardBtn, nextCardBtn] = pageButtonContainer.querySelectorAll(".perviouCardBtn, .nextCardBtn");
+	
+	const formData = new FormData();
+	formData.append("action", "TotalCountOFEID");
+
+	const response = await fetch("EmployeeServlet", {
+        method: "POST",
+        body: formData
+	});
+
+	const data = await response.json();
+
+	if (data.totalCount > 10) {
+		pageButtonContainer.style.display = "flex";
+		
+		console.log(data.totalCount + " > "+ startNum);
+		if (data.totalCount > startNum && !nextCardBtn.hasAttribute("style")) {
+			perviouCardBtn.style.display = "none";
+		}
+		
+		perviouCardBtn.onclick = () => {
+			if (startNum > 1 && endNum > 10) {
+				startNum = startNum - 10;
+			    endNum = endNum - 10;
+		        startCardNum.textContent = startNum;
+	            endCardNum.textContent = endNum;
+	            fetchData(mainContent3, cardContainer, MessageScreen, false, true);
+				if (nextCardBtn.hasAttribute("style")) {
+					nextCardBtn.removeAttribute("style"); 
+				}
+			}
+		};
+
+		nextCardBtn.onclick = () => {
+	        startNum = startNum + 10;
+	        endNum = endNum + 10;
+	        startCardNum.textContent = startNum;
+	        endCardNum.textContent = endNum;
+	        fetchData(mainContent3, cardContainer, MessageScreen, true, false);
+			if (data.totalCount <= endNum) {
+				nextCardBtn.style.display = "none";
+			}
+			if (perviouCardBtn.hasAttribute("style")) {
+				perviouCardBtn.removeAttribute("style"); 
+			}
+		};	
+	}
+}
+
+async function fetchData(mainContent3, cardContainer, MessageScreen, perviou, next) {
+
+    if (perviou === false && next === true) {
+		offsetValue = startNum;
+		offsetValue = offsetValue - 1;
+        // console.log("1. "+ offsetValue);
+    } else if (perviou === true && next === false) {
+		console.log(endNum);
+		offsetValue = endNum;
+		offsetValue = offsetValue - 10;
+        // console.log("2. "+offsetValue);
+    }
+
     const formData = new FormData();
     formData.append("action", "viewAllEmployees");
+    formData.append("offsetValue", offsetValue);
 
     const response = await fetch("EmployeeServlet", {
         method: "POST",
@@ -278,6 +359,7 @@ async function fetchData(mainContent3, cardContainer, MessageScreen) {
         return;
     }
 
+    cardContainer.innerHTML = "";
     data.forEach((emp) => {
         // console.log(emp);
         const fullName = emp.empFirstName + " " + emp.empLastName;
@@ -349,6 +431,7 @@ async function fetchData(mainContent3, cardContainer, MessageScreen) {
         });
 
         searchEmployeeData(mainContent3, cardContainer);
+        fetchNewCardsdData(mainContent3, cardContainer, MessageScreen);
 
     } else {
         const cards = cardContainer.querySelectorAll(".card");
@@ -369,9 +452,13 @@ function loadViewEmployeeScript() {
         const mainContent3 = document.querySelector(".mainContent");
         const MessageScreen = mainContent3.querySelector(".MessageScreen");
         let cardContainer = mainContent3.querySelector(".cardContainer");
+		const header3 = mainContent3.querySelector(".header3");
+		let [startCardNum, endCardNum] = header3.querySelectorAll("#startCardNum, #endCardNum");
+		startCardNum.textContent = startNum;
+		endCardNum.textContent = endNum;
         viewEmpIconLoader(mainContent3);
-        fetchData(mainContent3, cardContainer, MessageScreen);
-		fetchFilterOptions(mainContent3, cardContainer, MessageScreen);
+        fetchData(mainContent3, cardContainer, MessageScreen, false, true);
+        fetchFilterOptions(mainContent3, cardContainer, MessageScreen);
     } catch (error) {
         console.error("Error loading view employee script:", error);
     }

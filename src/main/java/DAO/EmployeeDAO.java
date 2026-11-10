@@ -55,11 +55,14 @@ public class EmployeeDAO {
 		}
 	}
 
-	public ResultSet getAllEmployeeDataForCards() {
+	public ResultSet getAllEmployeeDataForCards(String offsetValue) {
 		try {
-			String sql = "select e_id, employee_id, first_name, last_name, photo_path from employees order by e_id asc;";
-			
-			PreparedStatement ps = this.con.prepareStatement(sql);
+			String sql = "select e_id, employee_id, first_name, last_name, photo_path from employees order by e_id asc limit 10 offset " + offsetValue;
+			System.out.println(sql);
+			PreparedStatement ps = this.con.prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY
+					);
 			
 			ResultSet rs = ps.executeQuery();
 			

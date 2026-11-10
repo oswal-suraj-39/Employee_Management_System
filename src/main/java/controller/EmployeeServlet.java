@@ -155,7 +155,8 @@ public class EmployeeServlet extends HttpServlet {
 				}
 			}
 			
-			String requestedAction = request.getParameter("action");			
+			String requestedAction = request.getParameter("action");		
+			String offsetValue = request.getParameter("offsetValue");
 			String EID = request.getParameter("EID");
 			String[] columnsName = request.getParameterValues("columnsName");
 			String[] newValues = request.getParameterValues("newValues");
@@ -165,6 +166,7 @@ public class EmployeeServlet extends HttpServlet {
 				
 				switch (requestedAction) {
 					case "viewAllEmployees": {
+						if (offsetValue != null) {
 						response.setContentType("application/json");
 						response.setCharacterEncoding("UTF-8");
 	
@@ -172,17 +174,20 @@ public class EmployeeServlet extends HttpServlet {
 						ContactDAO cDAO = new ContactDAO();
 						DepartmentDAO dDAO = new DepartmentDAO();
 						
-						ResultSet rs1 = eDAO.getAllEmployeeDataForCards();
-						ResultSet rs4 = eDAO.getTotalCountOFEID();
-						ResultSet rs2 = cDAO.getAllContactDataForCards();
-						ResultSet rs3 = dDAO.getAllDepartmentDataForCards();
+						System.out.println(offsetValue);
+						ResultSet rs1 = eDAO.getAllEmployeeDataForCards(offsetValue);
+						ResultSet rs2 = cDAO.getAllContactDataForCards(offsetValue);
+						ResultSet rs3 = dDAO.getAllDepartmentDataForCards(offsetValue);
 						
 						int size = 0, i = 0;
 						
-						while (rs4.next()) {
-							size = rs4.getInt("count");
+						while (rs1.next()) {
+							size++;
 						}
 						
+						rs1.beforeFirst();
+						
+						System.out.println("size = "+size);
 						Employee[] employee = new Employee[size];
 						Contact[] contact = new Contact[size];
 						Department[] department = new Department[size];
@@ -239,7 +244,10 @@ public class EmployeeServlet extends HttpServlet {
 						rs1.close();
 						rs2.close();
 						rs3.close();
-						rs4.close();
+						
+						System.out.println("Done");
+					
+						}
 						break;
 					}
 					
@@ -282,7 +290,11 @@ public class EmployeeServlet extends HttpServlet {
 								empData.put("empJoinDate",Date.valueOf(rs3.getString("join_date")));
 								empData.put("empStatus",rs3.getString("employee_status"));
 							}
-							
+					
+							rs1.close();
+							rs2.close();
+							rs3.close();
+				
 							response.getWriter().print(empData);
 						}
 						break;
@@ -342,6 +354,8 @@ public class EmployeeServlet extends HttpServlet {
 								result.put("DepartmentDataUpdate", "error");
 							}
 							
+							rs.close();
+							
 							response.getWriter().print(result);
 						}
 						break;
@@ -371,6 +385,9 @@ public class EmployeeServlet extends HttpServlet {
 							} else {
 								result.put("EmployeeDataDelete", "error");
 							}
+							
+							rs.close();
+							
 							response.getWriter().print(result);
 						}
 						break;
@@ -397,6 +414,8 @@ public class EmployeeServlet extends HttpServlet {
 						}
 						result.put("TotalCountOfDepartment", cnt4);
 						
+						rs.close();
+						
 						response.getWriter().print(result);
 						
 						break;
@@ -420,6 +439,7 @@ public class EmployeeServlet extends HttpServlet {
 					        }
 
 					        result.put("deptNameList", deptNameList);
+					        rs.close();
 					    } else if ("byJobRole".equals(category)) {
 
 					        JSONArray jobTitleList = new JSONArray();
@@ -430,6 +450,7 @@ public class EmployeeServlet extends HttpServlet {
 					        }
 
 					        result.put("jobTitleList", jobTitleList);
+					        rs.close();
 					    } else {
 					        result.put("status", "error");
 					    }
@@ -478,6 +499,34 @@ public class EmployeeServlet extends HttpServlet {
 						departmentWiseEmployeeCount.put("deptNameList", deptNameList);
 						departmentWiseEmployeeCount.put("countList", CountList);
 						result.put("departmentWiseEmployeeCount", departmentWiseEmployeeCount);
+						
+						rs1.close();
+						rs2.close();
+						rs3.close();
+						
+						response.getWriter().print(result);
+						break;
+						
+						
+					}
+					
+					case "TotalCountOFEID": {
+						response.setContentType("application/json");
+						response.setCharacterEncoding("UTF-8");
+						
+						JSONObject result = new JSONObject();
+						EmployeeDAO eDAO = new EmployeeDAO();
+						
+						ResultSet rs = eDAO.getTotalCountOFEID();
+						
+						int TotalCount = 0;
+						while (rs.next()) {
+							TotalCount = rs.getInt("count");
+						}
+						
+						result.put("totalCount", TotalCount);
+						
+						rs.close();
 						
 						response.getWriter().print(result);
 						break;

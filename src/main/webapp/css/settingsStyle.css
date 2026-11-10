@@ -20,7 +20,7 @@
 }
 
 .track:focus-visible {
-    outline: none;
+    outline: 3px solid white;
 }
 
 .handle {

@@ -46,16 +46,14 @@ public class DepartmentDAO {
 		}
 	}
 
-	public ResultSet getAllDepartmentDataForCards() {
+	public ResultSet getAllDepartmentDataForCards(String offsetValue) {
 		try {
-			String sql = 
-					"""
-					select dept_name, job_title
-					from department
-					order by e_id asc;
-					""";
-			
-			PreparedStatement ps = this.con.prepareStatement(sql);
+			String sql = "select dept_name, job_title from department order by e_id asc limit 10 offset " + offsetValue;
+			System.out.println(sql);
+			PreparedStatement ps = this.con.prepareStatement(sql,
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_READ_ONLY
+					);
 			
 			ResultSet rs = ps.executeQuery();
 			
