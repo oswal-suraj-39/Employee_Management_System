@@ -107,7 +107,10 @@ git clone https://github.com/oswal-suraj-39/Employee_Management_System.git
 1. Start your PostgreSQL server.
 2. Create a database for the project.
 3. Create the required tables.
-4. Configure the database connection details in your Java project.
+4. Configure the database connection details in your Java project
+   ```File location
+   Employee_Management_System/src/main/java/utility/DBConnection.java
+   ```
 
 ### 3. Configure Database Connection
 
@@ -117,6 +120,9 @@ Update your database connection settings:
 - Database name
 - Username
 - Password
+```File location
+   Employee_Management_System/src/main/java/utility/DBConnection.java
+```
 
 Make sure your PostgreSQL JDBC driver is available in the project.
 
