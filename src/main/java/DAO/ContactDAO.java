@@ -8,14 +8,13 @@ import model.*;
 import utility.DBConnection;
 
 public class ContactDAO {
-	
+
 	protected Connection con = DBConnection.getConnection();
 
 	public boolean addContact(Contact contact, Employee employee) {
 		try {
-			
-			String sql = 
-					"""
+
+			String sql = """
 					insert into contact(
 						e_id,
 						email,
@@ -27,9 +26,9 @@ public class ContactDAO {
 						phone
 					) values (?, ?, ?, ?, ?, ?, ?, ?)
 					""";
-			
+
 			PreparedStatement ps = this.con.prepareStatement(sql);
-			
+
 			ps.setInt(1, employee.getEID());
 			ps.setString(2, contact.getEmail());
 			ps.setString(3, contact.getAddress());
@@ -38,11 +37,11 @@ public class ContactDAO {
 			ps.setString(6, contact.getCountry());
 			ps.setInt(7, contact.getPincode());
 			ps.setLong(8, contact.getPhone());
-			
+
 			int rowsAffected = ps.executeUpdate();
-			
+
 			return rowsAffected > 0;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -55,19 +54,18 @@ public class ContactDAO {
 			System.out.println(sql);
 			PreparedStatement ps = this.con.prepareStatement(sql,
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
-					ResultSet.CONCUR_READ_ONLY
-					);
-			
+					ResultSet.CONCUR_READ_ONLY);
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			return rs;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public ResultSet getContactDataByEID(int eid) {
 		try {
 			String sql = """
@@ -75,21 +73,21 @@ public class ContactDAO {
 					from contact
 					where e_id = ?;
 					""";
-			
+
 			PreparedStatement ps = this.con.prepareStatement(sql);
-			
+
 			ps.setInt(1, eid);
-			
+
 			ResultSet rs = ps.executeQuery();
-			
+
 			return rs;
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public int updateContactDataByEID(Employee employee, String[] columnsName, String[] newValues) {
 		try {
 			int a = 1;
