@@ -7,9 +7,9 @@ public class DBConnection {
 	public static Connection getConnection() {
 		
 		try {
-			String url = "jdbc:postgresql://localhost:5432/MyDatabase";
-			String user = "postgres";
-			String pw = "suraj3960";
+			String url = "jdbc:postgresql://localhost:5432/YourDatabaseName";
+			String user = "YourUserName";
+			String pw = "YourPassword";
 			
 			Class.forName("org.postgresql.Driver");
 		
